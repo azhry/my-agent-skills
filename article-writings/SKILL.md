@@ -16,8 +16,8 @@ This skill guides you through writing a research article for the personal websit
 
 To write a new research article, provide the AI agent with:
 
-1. **A source file** — PDF or TXT of the research paper
-2. **A reference to this skill** — so the agent knows to follow it
+1. **A source file** - PDF or TXT of the research paper
+2. **A reference to this skill** - so the agent knows to follow it
 
 ### Example Prompts
 
@@ -92,11 +92,11 @@ Read the extracted text to understand the paper's structure, key contributions, 
 
 Before writing, plan the sections to match the paper's architecture flow. A typical research article follows this pattern:
 
-1. **Introduction** — Problem statement, motivation, key contributions
-2. **Input Processing** — How raw data enters the model (embeddings, tokenization)
-3. **Core Components** — Each architectural component gets its own section
-4. **Inference/Output** — How the model produces final predictions
-5. **Experimental Results** — Benchmark comparisons
+1. **Introduction** - Problem statement, motivation, key contributions
+2. **Input Processing** - How raw data enters the model (embeddings, tokenization)
+3. **Core Components** - Each architectural component gets its own section
+4. **Inference/Output** - How the model produces final predictions
+5. **Experimental Results** - Benchmark comparisons
 
 **Critical Rule**: Pick ONE running example sentence and use it consistently throughout ALL sections. Every visualization and calculation must trace back to this same example.
 
@@ -173,12 +173,16 @@ Example references column (BibTeX):
 Use `[color:text]` syntax for inline colored highlights:
 - `[red:error text]`, `[blue:model name]`, `[emerald:positive result]`, `[sky:term]`, `[amber:warning]`, `[purple:component]`
 
-#### 4d. SVG Visualizations
+#### 4d. Typography
+
+- **NO EMDASHES**: NEVER use emdashes (`—`) in the generated articles. Always use standard hyphens (`-`). AI models often output emdashes by default, but you must forcefully prevent this.
+
+#### 4e. SVG Visualizations
 
 See `resources/svg_patterns.md` for complete SVG pattern examples. Key rules:
 - All SVGs must be wrapped in a `<div class="my-8 flex flex-col items-center">`
 - Use `viewBox` for responsive sizing
-- **NEVER** overlap text labels with arrows — place labels adjacent to arrows
+- **NEVER** overlap text labels with arrows - place labels adjacent to arrows
 - Use `class="dark:fill-*"` for dark mode support
 - Add a caption: `<p class="text-[0.7rem] text-center mt-4 italic ...">*Figure N: ...*</p>`
 
@@ -186,23 +190,23 @@ See `resources/svg_patterns.md` for complete SVG pattern examples. Key rules:
 
 See `resources/svg_patterns.md` for full SVG code patterns. Summary of rules:
 
-1. **No overlapping elements** — Text labels must sit BESIDE arrows, not on top
-2. **Show concrete values** — Every visualization must show actual numeric I/O values from the running example
-3. **Use the running example** — All visuals must use the SAME example sentence/data throughout
-4. **Arrow markers** — Define `<marker>` elements in `<defs>` for arrowheads
-5. **No Tailwind for Base Colors** — ⚠️ CRITICAL: Database content is not scanned by Tailwind CSS during build! Do NOT use Tailwind classes (like `fill-blue-500` or `stroke-red-400`) for base colors. ALWAYS use explicit inline hex codes (e.g., `fill="#eff6ff" stroke="#3b82f6"`). You may include `class="dark:fill-*"` for dark mode support, but the base rendering must rely on inline hex colors.
-6. **Programmatic grids** — For N×N matrices, generate SVG cells programmatically in a JS script (see `resources/matrix_generation.md`)
-7. **Cell sizing** — For matrix grids, use minimum 70×45px cells with 14px+ font for readability
-8. **Color coding** — Use consistent colors: blue for semantic, green for syntactic, red for negative/blocked, amber for warnings/distances, purple for projections
+1. **No overlapping elements** - Text labels must sit BESIDE arrows, not on top
+2. **Show concrete values** - Every visualization must show actual numeric I/O values from the running example
+3. **Use the running example** - All visuals must use the SAME example sentence/data throughout
+4. **Arrow markers** - Define `<marker>` elements in `<defs>` for arrowheads
+5. **No Tailwind for Base Colors** - ⚠️ CRITICAL: Database content is not scanned by Tailwind CSS during build! Do NOT use Tailwind classes (like `fill-blue-500` or `stroke-red-400`) for base colors. ALWAYS use explicit inline hex codes (e.g., `fill="#eff6ff" stroke="#3b82f6"`). You may include `class="dark:fill-*"` for dark mode support, but the base rendering must rely on inline hex colors.
+6. **Programmatic grids** - For N×N matrices, generate SVG cells programmatically in a JS script (see `resources/matrix_generation.md`)
+7. **Cell sizing** - For matrix grids, use minimum 70×45px cells with 14px+ font for readability
+8. **Color coding** - Use consistent colors: blue for semantic, green for syntactic, red for negative/blocked, amber for warnings/distances, purple for projections
 
 ### Phase 6: Calculation Coherence
 
 **Every section must show end-to-end calculation steps with concrete values:**
 
-1. **Input** — Show what enters the component (with actual vector values from the running example)
-2. **Formula** — Show the mathematical formula in LaTeX
-3. **Worked example** — Trace through the formula with specific numbers
-4. **Output** — Show the result that feeds into the next section
+1. **Input** - Show what enters the component (with actual vector values from the running example)
+2. **Formula** - Show the mathematical formula in LaTeX
+3. **Worked example** - Trace through the formula with specific numbers
+4. **Output** - Show the result that feeds into the next section
 
 **Values must be coherent across sections.** If Section 2 outputs `e₂ = [0.287, -0.156, ...]`, then Section 3 must use that SAME vector as input.
 
