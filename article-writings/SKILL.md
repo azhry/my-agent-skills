@@ -84,7 +84,9 @@ python scripts/extract.py "<path-to-pdf>" scripts/extracted_source.txt
 cp <source.txt> scripts/extracted_source.txt
 ```
 
-Read the extracted text to understand the paper's structure, key contributions, formulas, and architecture.
+Read the extracted text to understand the paper's structure, key contributions, formulas, and architecture. 
+
+**⚠️ CRITICAL RULE for Long Content:** If the source document is extremely long, DO NOT attempt to read, analyze, or write it all in one single massive action. Break the content down into smaller, logical pieces (e.g., processing Introduction, then Architecture, then Results) and build the article sequentially.
 
 ### Phase 2: Plan the Article Structure
 
@@ -188,7 +190,7 @@ See `resources/svg_patterns.md` for full SVG code patterns. Summary of rules:
 2. **Show concrete values** — Every visualization must show actual numeric I/O values from the running example
 3. **Use the running example** — All visuals must use the SAME example sentence/data throughout
 4. **Arrow markers** — Define `<marker>` elements in `<defs>` for arrowheads
-5. **Dark mode** — Use `class="dark:fill-* dark:stroke-*"` on SVG elements
+5. **No Tailwind for Base Colors** — ⚠️ CRITICAL: Database content is not scanned by Tailwind CSS during build! Do NOT use Tailwind classes (like `fill-blue-500` or `stroke-red-400`) for base colors. ALWAYS use explicit inline hex codes (e.g., `fill="#eff6ff" stroke="#3b82f6"`). You may include `class="dark:fill-*"` for dark mode support, but the base rendering must rely on inline hex colors.
 6. **Programmatic grids** — For N×N matrices, generate SVG cells programmatically in a JS script (see `resources/matrix_generation.md`)
 7. **Cell sizing** — For matrix grids, use minimum 70×45px cells with 14px+ font for readability
 8. **Color coding** — Use consistent colors: blue for semantic, green for syntactic, red for negative/blocked, amber for warnings/distances, purple for projections
