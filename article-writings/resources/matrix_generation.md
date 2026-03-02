@@ -85,6 +85,6 @@ db.close();
 ## Tips
 
 - Use `overflow-x-auto` wrapper for mobile horizontal scroll
-- Set `min-width: 700px` — prevents the SVG from becoming too tiny
+- Set `min-width: 700px` - prevents the SVG from becoming too tiny
 - For relationship matrices with text labels (e.g., "nsubj", "det"), use smaller font (11-12px) and wider cells (80×45)
 - Add a legend bar below the grid using simple `<rect>` + `<text>` elements

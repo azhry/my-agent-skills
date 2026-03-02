@@ -10,7 +10,7 @@ description: Write research articles with SVG visualizations, LaTeX math, citati
 
 ## Overview
 
-This skill guides you through writing a research article for the personal website. Articles are stored in a SQLite database (`db/content.db`) and rendered by `src/components/MarkdownRenderer.astro` which supports Markdown, LaTeX (KaTeX), inline SVG visualizations, and BibTeX citations.
+This skill guides you through writing parallel research articles for the personal website in both Indonesian and English. Articles are stored in a SQLite database (`db/content.db`) and rendered by `src/components/MarkdownRenderer.astro` which supports Markdown, LaTeX (KaTeX), inline SVG visualizations, and BibTeX citations. The system uses a language-specific field strategy (`content_id` and `content_en`) to serve content via `/id/articles/...` and `/en/articles/...` routes.
 
 ## How to Use This Skill
 
@@ -57,12 +57,12 @@ When the agent reads this skill, it follows an 8-phase workflow:
 |-------|-------------|
 | 1. Source Extraction | Extract text from PDF/TXT |
 | 2. Plan Structure | Outline sections, pick a running example |
-| 3. Database Setup | Create or update the article in SQLite |
-| 4. Write Content | Markdown + LaTeX + citations + colored text |
-| 5. Visualizations | SVG diagrams with concrete values, no overlaps |
-| 6. Calculation Coherence | End-to-end value chain across all sections |
-| 7. Content Updates | Small per-section scripts (never one giant write) |
-| 8. Verification | Check rendering on localhost |
+| 3. Database Setup | Create article with i18n fields in SQLite |
+| 4. Write Content | Write/Translate Markdown body (ID and EN) |
+| 5. Visualizations | SVG diagrams (Keep technical labels in EN) |
+| 6. Coherence | End-to-end values consistent across both versions |
+| 7. Content Updates | Target specific fields (e.g., `content_id`) |
+| 8. Verification | Check rendering on `/id/` and `/en/` routes |
 
 ## Prerequisites
 
@@ -108,16 +108,19 @@ Use the helper scripts in `scripts/` to read/write articles. See `scripts/` dire
 ```sql
 CREATE TABLE articles (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT NOT NULL,
+  title TEXT NOT NULL, -- Legacy/Fallback
   slug TEXT NOT NULL UNIQUE,
-  content TEXT NOT NULL,        -- Markdown content (main body)
+  content TEXT NOT NULL, -- Legacy/Fallback
   excerpt TEXT,
-  published_at DATETIME,
-  status TEXT DEFAULT 'draft',  -- 'draft', 'published', 'archived'
-  tags TEXT,                    -- JSON array: '["nlp","transformer"]'
-  category TEXT DEFAULT 'article',
-  cover_image TEXT,
-  "references" TEXT             -- BibTeX string for citations
+  title_id TEXT,    -- Indonesian Title
+  content_id TEXT,  -- Indonesian Content
+  excerpt_id TEXT,  -- Indonesian Excerpt
+  title_en TEXT,    -- English Title
+  content_en TEXT,  -- English Content
+  excerpt_en TEXT,  -- English Excerpt
+  lang_default TEXT DEFAULT 'en',
+  status TEXT DEFAULT 'draft',
+  "references" TEXT -- JSON array or BibTeX
 );
 ```
 
@@ -125,18 +128,23 @@ CREATE TABLE articles (
 ```javascript
 import Database from 'better-sqlite3';
 const db = new Database('db/content.db');
-const article = db.prepare('SELECT content, "references" FROM articles WHERE slug=?').get('my-article-slug');
+// Fetch both versions or a specific one
+const article = db.prepare('SELECT content_id, content_en FROM articles WHERE slug=?').get('my-article-slug');
 ```
 
-**Writing content:**
+**Writing specific language content:**
 ```javascript
-db.prepare('UPDATE articles SET content = ? WHERE slug = ?').run(newContent, slug);
+// Update Indonesian version
+db.prepare('UPDATE articles SET content_id = ? WHERE slug = ?').run(idContent, slug);
+
+// Update English version
+db.prepare('UPDATE articles SET content_en = ? WHERE slug = ?').run(enContent, slug);
 ```
 
 **Inserting a new article:**
 ```javascript
-db.prepare(`INSERT INTO articles (title, slug, content, excerpt, status, tags, "references")
-  VALUES (?, ?, ?, ?, 'published', ?, ?)`).run(title, slug, content, excerpt, tagsJson, bibtexStr);
+db.prepare(`INSERT INTO articles (title, slug, content, title_id, content_id, title_en, content_en, status)
+  VALUES (?, ?, ?, ?, ?, ?, ?, 'published')`).run(titleEn, slug, contentEn, titleId, contentId, titleEn, contentEn);
 ```
 
 ### Phase 4: Writing Content
@@ -175,16 +183,23 @@ Use `[color:text]` syntax for inline colored highlights:
 
 #### 4d. Typography
 
-- **NO EMDASHES**: NEVER use emdashes (`—`) in the generated articles. Always use standard hyphens (`-`). AI models often output emdashes by default, but you must forcefully prevent this.
+- **NO EMDASHES**: NEVER use emdashes (`—`) in any version. Always use standard hyphens (`-`).
+- **LINKING CITATIONS**: Ensure citations use the same keys across both `content_id` and `content_en` so they reference the same BibTeX table.
 
-#### 4e. SVG Visualizations
+#### 4e. Multi-Language Rules
+
+1. **Terminology Persistence**: For `content_id` (Indonesian), NEVER translate technical terms if they sound unnatural or are standard research jargon. Keep them in English (e.g., use "Syntax-Aware Transformer", not "Transformer Sadar-Sintaksis").
+2. **SVG Labels**: Labels inside SVGs should generally remain in **English** for both versions to maintain visualization integrity and avoid breaking LaTeX formulas inside SVGs.
+3. **KBBI Caution**: Avoid literal translations from KBBI that lose the technical meaning.
+
+#### 4f. SVG Visualizations
 
 See `resources/svg_patterns.md` for complete SVG pattern examples. Key rules:
 - All SVGs must be wrapped in a `<div class="my-8 flex flex-col items-center">`
 - Use `viewBox` for responsive sizing
 - **NEVER** overlap text labels with arrows - place labels adjacent to arrows
 - Use `class="dark:fill-*"` for dark mode support
-- Add a caption: `<p class="text-[0.7rem] text-center mt-4 italic ...">*Figure N: ...*</p>`
+- Add a caption in the target language: `<p class="text-[0.7rem] text-center mt-4 italic ...">*Gambar N (ID) / Figure N (EN): ...*</p>`
 
 ### Phase 5: Visualization Guidelines
 
@@ -212,23 +227,28 @@ See `resources/svg_patterns.md` for full SVG code patterns. Summary of rules:
 
 ### Phase 7: Content Update Strategy
 
-When updating large articles, break changes into small scripts:
+When updating large articles, break changes into small scripts targeting specific fields:
 
 ```javascript
-// Pattern: Find a section marker, replace just that section
-const content = db.prepare('SELECT content FROM articles WHERE slug=?').get(slug).content;
+// Target a specific language field
+const field = 'content_id'; 
+const res = db.prepare(`SELECT ${field} as content FROM articles WHERE slug=?`).get(slug);
+let content = res.content;
+
 const sectionStart = content.indexOf('## 5. My Section');
 const sectionEnd = content.indexOf('## 6. Next Section');
-const newContent = content.slice(0, sectionStart) + newSectionText + content.slice(sectionEnd);
-db.prepare('UPDATE articles SET content = ? WHERE slug=?').run(newContent, slug);
+const newSectionContent = content.slice(0, sectionStart) + newText + content.slice(sectionEnd);
+
+db.prepare(`UPDATE articles SET ${field} = ? WHERE slug=?`).run(newSectionContent, slug);
 ```
 
 **NEVER** try to write the entire article content in one script if it's large. Break it into per-section scripts.
 
 ### Phase 8: Verification
 
-After writing, verify the article renders correctly:
+After writing, verify the article renders correctly in both languages:
 
 1. Run `npm run dev` if not already running
-2. Visit `http://localhost:4321/articles/<slug>`
-3. Check: LaTeX renders, SVGs display without overlaps, citations link correctly, dark mode works
+2. Visit `http://localhost:4321/id/articles/<slug>` (Indonesian)
+3. Visit `http://localhost:4321/en/articles/<slug>` (English)
+4. Check: LaTeX renders, SVGs display without overlaps, citations link correctly, dark mode works, and technical terms are consistent in English across both.

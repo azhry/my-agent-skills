@@ -1,4 +1,4 @@
-# LaTeX in SVG — How It Works
+# LaTeX in SVG - How It Works
 
 ## Auto-Detection
 
@@ -14,22 +14,22 @@ If detected, the `<text>` element is replaced with a `<foreignObject>` containin
 ## Safe Patterns
 
 ```html
-<!-- Plain text — stays as SVG text -->
+<!-- Plain text - stays as SVG text -->
 <text x="100" y="50" text-anchor="middle" font-size="14"
   fill="#1d4ed8">Input Layer</text>
 
-<!-- Math notation — auto-converted to KaTeX -->
+<!-- Math notation - auto-converted to KaTeX -->
 <text x="100" y="50" text-anchor="middle" font-size="14"
   fill="#1d4ed8">h_i^{(l)}</text>
 
-<!-- Subscript notation — auto-converted -->
+<!-- Subscript notation - auto-converted -->
 <text x="100" y="50" text-anchor="middle" font-size="14"
   fill="#1d4ed8">W_{K,e}</text>
 ```
 
 ## Known Gotchas
 
-1. **Unicode math symbols** (`σ`, `⊕`) trigger auto-detection even in plain labels. Use UTF-8 text like `Σ` carefully — it may get mangled by KaTeX.
+1. **Unicode math symbols** (`σ`, `⊕`) trigger auto-detection even in plain labels. Use UTF-8 text like `Σ` carefully - it may get mangled by KaTeX.
 
 2. **Underscores in plain text** (e.g., `no_relation`) will trigger LaTeX mode. Avoid underscores in non-math SVG text labels. Use hyphens or spaces instead.
 

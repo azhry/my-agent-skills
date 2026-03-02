@@ -26,7 +26,7 @@ This sentence was chosen because it contains:
 
 | # | Title | Input | Output | Visualization |
 |---|-------|-------|--------|---------------|
-| 1 | Introduction | — | — | Architecture overview SVG |
+| 1 | Introduction | - | - | Architecture overview SVG |
 | 2 | GloVe Embedding | Raw words | Vectors ∈ ℝ¹⁰⁰ | Embedding lookup table |
 | 3 | BiLSTM | GloVe vectors | Hidden states ∈ ℝ²⁰⁰ | LSTM cell + sequence diagram |
 | 4 | Dependency Parsing | Sentence | Adj. matrix + Rel. matrix | Tree SVG + 10×10 grids |
@@ -34,7 +34,7 @@ This sentence was chosen because it contains:
 | 6 | Syntactic Distance | Dep. tree | BFS hop counts | BFS path diagram |
 | 7 | SA-Transformer | BiLSTM + edges | Syntax-enhanced states | Attention flow diagram |
 | 8 | Adjacent Inference | Pair representations | Tag predictions | GCN + tagging grid |
-| 9 | Experimental Results | — | F1 scores | Results table |
+| 9 | Experimental Results | - | F1 scores | Results table |
 
 ### Value Chain (Coherence Example)
 
@@ -58,8 +58,8 @@ Each section's output becomes the next section's input. This creates a seamless,
 
 ## Key Takeaways for New Articles
 
-1. **Choose the running example carefully** — it should exercise all model features
-2. **Plan the value chain before writing** — sketch which numbers flow where
-3. **Make dimensions explicit** — always state `∈ ℝⁿ` for vectors
-4. **Number all figures sequentially** — Figure 1, 2, 3...
-5. **Use consistent notation** — define symbols once, reuse everywhere
+1. **Choose the running example carefully** - it should exercise all model features
+2. **Plan the value chain before writing** - sketch which numbers flow where
+3. **Make dimensions explicit** - always state `∈ ℝⁿ` for vectors
+4. **Number all figures sequentially** - Figure 1, 2, 3...
+5. **Use consistent notation** - define symbols once, reuse everywhere

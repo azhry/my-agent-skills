@@ -15,9 +15,11 @@ import fs from 'fs';
 
 const db = new Database(path.resolve('db/content.db'));
 const slug = 'your-article-slug';
-const res = db.prepare('SELECT content FROM articles WHERE slug=?').get(slug);
-fs.writeFileSync('scripts/debug_content.md', res.content);
-console.log('Dumped to scripts/debug_content.md');
+// Fetch specific language version
+const res = db.prepare('SELECT content_id, content_en FROM articles WHERE slug=?').get(slug);
+fs.writeFileSync('scripts/debug_id.md', res.content_id);
+fs.writeFileSync('scripts/debug_en.md', res.content_en);
+console.log('Dumped content to scripts/debug_*.md');
 db.close();
 */
 
@@ -28,35 +30,33 @@ import path from 'path';
 
 const db = new Database(path.resolve('db/content.db'));
 
-const title = 'My Research Article Title';
+const title_en = 'My Research Article Title';
+const title_id = 'Judul Artikel Riset Saya';
 const slug = 'my-research-article';
-const excerpt = 'A brief summary of the article.';
+const excerpt_en = 'A brief summary of the article.';
+const excerpt_id = 'Ringkasan singkat artikel.';
 const tags = JSON.stringify(['nlp', 'transformer']);
-const references = `
-@article{key2024paper,
-  author = {Author Name},
-  year = {2024},
-  title = {Paper Title},
-  publisher = {Journal Name}
-}
-`;
+const references = `...`;
 
-const content = `
-## 1. Introduction
-
-Your markdown content here with $LaTeX$ support.
-
-## 2. Next Section
-
-More content...
-`;
+const content_en = `## 1. Introduction (EN) ...`;
+const content_id = `## 1. Pendahuluan (ID) ...`;
 
 db.prepare(`
-  INSERT INTO articles (title, slug, content, excerpt, status, tags, "references")
-  VALUES (?, ?, ?, ?, 'published', ?, ?)
-`).run(title, slug, content, excerpt, tags, references);
+  INSERT INTO articles (
+    title, slug, content,
+    title_id, content_id, excerpt_id,
+    title_en, content_en, excerpt_en,
+    status, tags, "references"
+  )
+  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'published', ?, ?)
+`).run(
+  title_en, slug, content_en,
+  title_id, content_id, excerpt_id,
+  title_en, content_en, excerpt_en,
+  tags, references
+);
 
-console.log('Article created!');
+console.log('I18n Article created!');
 db.close();
 */
 
@@ -67,7 +67,9 @@ import path from 'path';
 
 const db = new Database(path.resolve('db/content.db'));
 const slug = 'your-article-slug';
-const res = db.prepare('SELECT content FROM articles WHERE slug=?').get(slug);
+const field = 'content_id'; // or 'content_en'
+
+const res = db.prepare(`SELECT ${field} as content FROM articles WHERE slug=?`).get(slug);
 let content = res.content;
 
 // Find section boundaries
@@ -79,17 +81,11 @@ if (sectionStart === -1 || sectionEnd === -1) {
   process.exit(1);
 }
 
-const newSection = `## 3. My Section (Updated)
-
-New content for this section...
-
----
-
-`;
+const newSection = `## 3. My Section (Updated) ...`;
 
 content = content.slice(0, sectionStart) + newSection + content.slice(sectionEnd);
-db.prepare('UPDATE articles SET content = ? WHERE slug=?').run(content, slug);
-console.log('Section updated!');
+db.prepare(`UPDATE articles SET ${field} = ? WHERE slug=?`).run(content, slug);
+console.log(`Section in ${field} updated!`);
 db.close();
 */
 
@@ -100,7 +96,8 @@ import path from 'path';
 
 const db = new Database(path.resolve('db/content.db'));
 const slug = 'your-article-slug';
-const res = db.prepare('SELECT content FROM articles WHERE slug=?').get(slug);
+const field = 'content_id';
+const res = db.prepare(`SELECT ${field} as content FROM articles WHERE slug=?`).get(slug);
 let content = res.content;
 
 const marker = '## 5. Target Section';
@@ -117,7 +114,7 @@ const newBlock = `
 `;
 
 content = content.slice(0, idx) + newBlock + content.slice(idx);
-db.prepare('UPDATE articles SET content = ? WHERE slug=?').run(content, slug);
-console.log('Content inserted!');
+db.prepare(`UPDATE articles SET ${field} = ? WHERE slug=?`).run(content, slug);
+console.log(`Content inserted into ${field}!`);
 db.close();
 */

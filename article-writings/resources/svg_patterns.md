@@ -180,10 +180,11 @@ Use for showing how adjacent cells/nodes influence a target.
 
 ## Anti-Patterns (DO NOT DO)
 
-1. **❌ Text on top of arrows** — Always place text labels BESIDE arrows
-2. **❌ Small cells** — Never use cells smaller than 70×45px in grids
-3. **❌ No concrete values** — Every visualization MUST show actual numbers
-4. **❌ Inconsistent example** — ALL visualizations must use the SAME running example
-5. **❌ Missing dark mode** — Always add `class="dark:fill-* dark:stroke-*"`
-6. **❌ No caption** — Every figure needs a `<p>` caption with figure number
-7. **❌ Hardcoded large SVGs** — For 10×10+ grids, generate cells in JS loops
+1. **❌ Text on top of arrows** - Always place text labels BESIDE arrows
+2. **❌ Small cells** - Never use cells smaller than 70×45px in grids
+3. **❌ No concrete values** - Every visualization MUST show actual numbers
+4. **❌ Inconsistent example** - ALL visualizations must use the SAME running example
+5. **❌ Missing dark mode** - Always add `class="dark:fill-* dark:stroke-*"`
+6. **❌ No caption** - Every figure needs a `<p>` caption with figure number
+8. **❌ Translated labels** - Keep SVG internal labels in **English** for both ID and EN versions to maintain technical consistency and avoid breaking LaTeX formulas.
+9. **❌ Hardcoded large SVGs** - For 10×10+ grids, generate cells in JS loops
