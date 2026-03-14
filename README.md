@@ -38,8 +38,10 @@ A skill for turning papers into well-structured articles with diagrams.
 ### 🔬 [Data Science Lab](./data-science-lab/SKILL.md)
 End-to-end data science lab workflow from task planning to result analysis.
 - **What it does**: Creates Jupyter notebooks, runs experiments with hyperparameter sweeps, exports CSV results, generates publication-quality infographics, and writes reports.
-- **How it works**: A 9-step workflow with reusable helper scripts for analysis, visualization, infographics, and report generation. Includes Linear MCP integration for task tracking.
-- **Includes**: `scripts/` with 4 helper modules + `examples/` with a sample lab assignment and completed notebook.
+- **How it works**: A 10-step workflow with reusable helper scripts for EDA, data prep, analysis, visualization, and infographics. Includes Linear MCP (optional) or Markdown-based task tracking.
+- **Includes**: 
+  - `scripts/` with 5 helper modules (run_eda.py, run_data_prep.py, analyze_results.py, visualize.py, create_infographics.py)
+  - `examples/` with use cases: classification, regression, clustering, NLP sentiment, topic modeling, anomaly detection, forecasting, and recommendations
 
 ---
 
