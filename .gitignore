@@ -1,3 +1,11 @@
 plans
 dummy-test
-**/*/__pycache__
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+.env
