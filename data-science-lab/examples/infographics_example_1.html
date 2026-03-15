@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Indonesia Socio-Economic Dashboard 2021</title>
+<!-- Tailwind CSS v3 CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- BEGIN: Custom Configuration -->
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'indo-red': '#cc0000',
+            'indo-dark': '#1a202c',
+          }
+        }
+      }
+    }
+  </script>
+<!-- END: Custom Configuration -->
+<!-- BEGIN: Custom Styles -->
+<style data-purpose="layout-refinements">
+    .gradient-bg {
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+    }
+    .chart-container {
+      position: relative;
+      width: 100%;
+      height: 200px;
+    }
+  </style>
+<!-- END: Custom Styles -->
+</head>
+<body class="gradient-bg min-h-screen font-sans text-slate-800 p-4 md:p-8">
+<!-- BEGIN: MainContainer -->
+<main class="max-w-6xl mx-auto space-y-8">
+<!-- BEGIN: Header -->
+<header class="flex flex-col md:flex-row md:items-end justify-between border-b-2 border-indo-red pb-4">
+<div>
+<h1 class="text-3xl font-bold text-indo-dark">Indonesia Socio-Economic Snapshot 2021</h1>
+<p class="text-slate-500 mt-1">Focus Area: Poverty &amp; Inequality (Sept 2021 Data)</p>
+</div>
+<div class="mt-4 md:mt-0 text-right">
+<span class="bg-slate-200 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">Official Statistics</span>
+</div>
+</header>
+<!-- END: Header -->
+<!-- BEGIN: KeyPerformanceIndicators -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-6" data-purpose="kpi-section">
+<!-- Poverty Rate KPI -->
+<div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between" data-purpose="kpi-card">
+<div>
+<p class="text-sm font-medium text-slate-500 uppercase">National Poverty Rate</p>
+<h2 class="text-5xl font-extrabold text-indo-red mt-1">9.71<span class="text-2xl">%</span></h2>
+<p class="text-xs text-green-600 mt-2 font-medium">↓ -0.48% from March 2021</p>
+</div>
+<div class="hidden sm:block">
+<!-- Icon placeholder for poverty representation -->
+<svg class="h-16 w-16 text-slate-100" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13.478 20h4.522m-4.522 0l-1-1m1 1l-1 1" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+<!-- Gini Ratio KPI -->
+<div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-center justify-between" data-purpose="kpi-card">
+<div>
+<p class="text-sm font-medium text-slate-500 uppercase">Gini Ratio (Inequality)</p>
+<h2 class="text-5xl font-extrabold text-slate-800 mt-1">0.381</h2>
+<p class="text-xs text-green-600 mt-2 font-medium">↓ -0.003 from March 2021</p>
+</div>
+<div class="hidden sm:block">
+<svg class="h-16 w-16 text-slate-100" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+<path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+</div>
+</section>
+<!-- END: KeyPerformanceIndicators -->
+<!-- BEGIN: DataVisualizations -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+<!-- Poverty Trend Visualization -->
+<div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+<h3 class="text-lg font-bold mb-6 flex items-center">
+<span class="w-2 h-6 bg-indo-red mr-3 rounded-full"></span>
+          Poverty Rate Trend (2019 - 2021)
+        </h3>
+<div class="chart-container flex items-end justify-between space-x-2 px-2" data-purpose="poverty-chart">
+<!-- Mar 2019 -->
+<div class="flex-1 flex flex-col items-center">
+<span class="text-[10px] text-slate-400 mb-1">9.41%</span>
+<div class="w-full bg-slate-200 rounded-t-md transition-all hover:bg-slate-300" style="height: 140px;"></div>
+<span class="text-[10px] mt-2 font-semibold">Mar '19</span>
+</div>
+<!-- Mar 2020 -->
+<div class="flex-1 flex flex-col items-center">
+<span class="text-[10px] text-slate-400 mb-1">9.78%</span>
+<div class="w-full bg-slate-200 rounded-t-md transition-all hover:bg-slate-300" style="height: 150px;"></div>
+<span class="text-[10px] mt-2 font-semibold">Mar '20</span>
+</div>
+<!-- Sept 2020 (Peak Covid) -->
+<div class="flex-1 flex flex-col items-center">
+<span class="text-[10px] text-slate-400 mb-1">10.19%</span>
+<div class="w-full bg-slate-300 rounded-t-md transition-all hover:bg-slate-400" style="height: 165px;"></div>
+<span class="text-[10px] mt-2 font-semibold text-indo-red">Sept '20</span>
+</div>
+<!-- Mar 2021 -->
+<div class="flex-1 flex flex-col items-center">
+<span class="text-[10px] text-slate-400 mb-1">10.14%</span>
+<div class="w-full bg-slate-200 rounded-t-md transition-all hover:bg-slate-300" style="height: 162px;"></div>
+<span class="text-[10px] mt-2 font-semibold">Mar '21</span>
+</div>
+<!-- Sept 2021 -->
+<div class="flex-1 flex flex-col items-center">
+<span class="text-[10px] font-bold text-indo-red mb-1">9.71%</span>
+<div class="w-full bg-indo-red rounded-t-md shadow-lg" style="height: 148px;"></div>
+<span class="text-[10px] mt-2 font-bold">Sept '21</span>
+</div>
+</div>
+<p class="text-xs text-slate-500 mt-6 italic">The rate has successfully dipped back below 10% following the pandemic peak in late 2020.</p>
+</div>
+<!-- Inequality/Gini Ratio Visualization -->
+<div class="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
+<h3 class="text-lg font-bold mb-6 flex items-center">
+<span class="w-2 h-6 bg-slate-800 mr-3 rounded-full"></span>
+          Urban vs Rural Gini Ratio
+        </h3>
+<div class="space-y-6" data-purpose="inequality-comparison">
+<!-- Urban Progress -->
+<div>
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-semibold">Urban (Perkotaan)</span>
+<span class="text-sm font-bold">0.398</span>
+</div>
+<div class="w-full bg-slate-100 rounded-full h-3">
+<div class="bg-slate-700 h-3 rounded-full" style="width: 79.6%;"></div>
+</div>
+</div>
+<!-- Rural Progress -->
+<div>
+<div class="flex justify-between items-center mb-1">
+<span class="text-sm font-semibold">Rural (Pedesaan)</span>
+<span class="text-sm font-bold">0.314</span>
+</div>
+<div class="w-full bg-slate-100 rounded-full h-3">
+<div class="bg-slate-400 h-3 rounded-full" style="width: 62.8%;"></div>
+</div>
+</div>
+<!-- Trend Line Placeholder (Simple SVG path for visualization) -->
+<div class="pt-4" data-purpose="gini-trend-line">
+<p class="text-[10px] text-slate-400 uppercase tracking-tighter mb-2">Aggregate Trend</p>
+<div class="h-12 w-full border-b border-l border-slate-100 relative">
+<svg class="w-full h-full" viewbox="0 0 100 20">
+<path d="M0,10 Q25,5 50,8 T100,2" fill="none" stroke="#1a202c" stroke-width="1.5"></path>
+</svg>
+<div class="absolute -top-1 right-0 w-2 h-2 bg-indo-red rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: DataVisualizations -->
+<!-- BEGIN: DemographicBreakdown -->
+<section class="bg-indo-dark text-white p-8 rounded-2xl" data-purpose="regional-data">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<div class="space-y-2">
+<h4 class="text-indo-red font-bold text-sm uppercase">Population in Poverty</h4>
+<p class="text-3xl font-light">26.50 <span class="text-lg">Million</span></p>
+<p class="text-xs text-slate-400">Total number of citizens living below the national poverty line.</p>
+</div>
+<div class="space-y-2 border-t md:border-t-0 md:border-l border-slate-700 pt-4 md:pt-0 md:pl-8">
+<h4 class="text-indo-red font-bold text-sm uppercase">Regional Contrast</h4>
+<p class="text-sm">Island-wise poverty rates vary significantly:</p>
+<ul class="text-xs space-y-1 text-slate-300 mt-2">
+<li class="flex justify-between"><span>Java:</span> <span class="font-bold">9.16%</span></li>
+<li class="flex justify-between"><span>Sumatra:</span> <span class="font-bold">10.02%</span></li>
+<li class="flex justify-between"><span>Maluku &amp; Papua:</span> <span class="font-bold text-indo-red">20.43%</span></li>
+</ul>
+</div>
+<div class="space-y-4 border-t md:border-t-0 md:border-l border-slate-700 pt-4 md:pt-0 md:pl-8">
+<h4 class="text-indo-red font-bold text-sm uppercase">Poverty Line (PL)</h4>
+<p class="text-sm">Average Sept 2021:</p>
+<div class="bg-slate-800 p-3 rounded border border-slate-700">
+<p class="text-xl font-mono">Rp 486,168</p>
+<p class="text-[10px] text-slate-400 mt-1">per capita / month</p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: DemographicBreakdown -->
+<!-- BEGIN: Footer -->
+<footer class="text-center text-slate-400 text-[10px] pb-8">
+<p>Data Source: BPS (Badan Pusat Statistik) Indonesia - Berita Resmi Statistik No. 07/01/Th. XXV, 17 Januari 2022</p>
+<p class="mt-1">Produced for Socio-Economic Analysis 2021</p>
+</footer>
+<!-- END: Footer -->
+</main>
+<!-- END: MainContainer -->
+</body></html>

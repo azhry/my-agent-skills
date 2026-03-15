@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SaaS Indonesia Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#ec5b13",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#221610",
+                    },
+                    fontFamily: {
+                        "display": ["Public Sans"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100">
+<div class="relative flex min-h-screen w-full flex-col overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Navigation Header -->
+<header class="flex items-center justify-between border-b border-primary/10 bg-white/50 dark:bg-background-dark/50 backdrop-blur-md px-6 md:px-20 py-4 sticky top-0 z-50">
+<div class="flex items-center gap-8">
+<div class="flex items-center gap-3 text-primary">
+<span class="material-symbols-outlined text-3xl font-bold">insights</span>
+<h2 class="text-slate-900 dark:text-slate-100 text-lg font-bold leading-tight tracking-tight">SaaS Dynamics ID</h2>
+</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Market Map</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Local Players</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Global Giants</a>
+<a class="text-slate-600 dark:text-slate-400 hover:text-primary transition-colors text-sm font-medium" href="#">Compliance</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="hidden sm:flex items-center bg-slate-200/50 dark:bg-white/5 rounded-xl px-3 py-1.5 border border-slate-200 dark:border-white/10">
+<span class="material-symbols-outlined text-slate-500 text-xl">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-32 md:w-48 placeholder:text-slate-400" placeholder="Search insights..."/>
+</div>
+<div class="size-10 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User profile avatar icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTkYKxc62PgcwITYm3JBH5QadCy-AxgVt2uiymYDb4xzryFudHjBGXcs2Nb4AAYZI_zCBVg2_P3vlx12B4mQmEMIgM_OnPk-gOTUcsTQfN_D0O0YIfa_zIvZHdS5K39LLAY_WJUHTU46G38nPIpdfnQ2lQys8CWj13-Y5gZC-KjE4povnB4KxeZKE3cXs04sQJ_zJ20FdVmqDej223r9wuSS50RAmisWtJk5uC-8UmnpOMrBD_LTHKBOJZ-CkqfC5hXEcvyQs8mw"/>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-7xl mx-auto w-full p-6 md:p-10 space-y-8">
+<!-- Hero Section -->
+<section class="flex flex-col gap-4">
+<div class="flex flex-col gap-2">
+<span class="text-primary font-bold text-sm tracking-widest uppercase">Special Report 2024</span>
+<h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-slate-100 tracking-tight max-w-3xl">
+                            The Localization Paradox
+                        </h1>
+<p class="text-slate-600 dark:text-slate-400 text-lg max-w-2xl leading-relaxed">
+                            Why regional specialists are outperforming global tech titans in the Indonesian SaaS landscape through localized compliance and infrastructure.
+                        </p>
+</div>
+<div class="flex flex-wrap gap-4 mt-4">
+<div class="flex-1 min-w-[280px] bg-white dark:bg-white/5 p-6 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg">trending_up</span>
+<span class="text-green-600 text-sm font-bold bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded">+24% YoY</span>
+</div>
+<h3 class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Market Growth</h3>
+<p class="text-3xl font-bold mt-1">$4.2B USD</p>
+</div>
+<div class="flex-1 min-w-[280px] bg-white dark:bg-white/5 p-6 rounded-xl border border-slate-200 dark:border-white/10 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined text-primary bg-primary/10 p-2 rounded-lg">verified_user</span>
+<span class="text-green-600 text-sm font-bold bg-green-100 dark:bg-green-900/30 px-2 py-1 rounded">Dominant</span>
+</div>
+<h3 class="text-slate-500 dark:text-slate-400 text-sm font-medium uppercase tracking-wider">Local Specialists Share</h3>
+<p class="text-3xl font-bold mt-1">62.4%</p>
+</div>
+<div class="flex-1 min-w-[280px] bg-primary text-white p-6 rounded-xl shadow-lg shadow-primary/20">
+<div class="flex justify-between items-start mb-4">
+<span class="material-symbols-outlined bg-white/20 p-2 rounded-lg text-white">payments</span>
+</div>
+<h3 class="text-white/80 text-sm font-medium uppercase tracking-wider">Integration Depth</h3>
+<p class="text-3xl font-bold mt-1">98% QRIS Ready</p>
+</div>
+</div>
+</section>
+<!-- Comparative Analysis -->
+<section class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+<!-- Local Specialists Card -->
+<div class="bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden shadow-sm">
+<div class="bg-primary/5 p-6 border-b border-slate-200 dark:border-white/10">
+<h3 class="text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">location_on</span>
+                                Local Specialists
+                            </h3>
+<p class="text-slate-500 text-sm mt-1">Agile, Compliant, Deeply Integrated</p>
+</div>
+<div class="p-6 space-y-6">
+<div class="grid grid-cols-3 gap-4">
+<div class="text-center p-4 bg-slate-50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5">
+<div class="w-12 h-12 bg-white dark:bg-background-dark rounded-full mx-auto flex items-center justify-center mb-2 shadow-sm">
+<span class="text-xs font-bold text-primary">Mekari</span>
+</div>
+<p class="text-xs font-semibold">HR &amp; Payroll</p>
+</div>
+<div class="text-center p-4 bg-slate-50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5">
+<div class="w-12 h-12 bg-white dark:bg-background-dark rounded-full mx-auto flex items-center justify-center mb-2 shadow-sm">
+<span class="text-xs font-bold text-primary">SIRCLO</span>
+</div>
+<p class="text-xs font-semibold">E-Commerce</p>
+</div>
+<div class="text-center p-4 bg-slate-50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5">
+<div class="w-12 h-12 bg-white dark:bg-background-dark rounded-full mx-auto flex items-center justify-center mb-2 shadow-sm">
+<span class="text-xs font-bold text-primary">OnlinePajak</span>
+</div>
+<p class="text-xs font-semibold">Tax Tech</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-sm font-medium">Payment Integration</span>
+<div class="w-2/3 h-2 bg-slate-100 dark:bg-white/10 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[95%]"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm font-medium">Regulatory Compliance</span>
+<div class="w-2/3 h-2 bg-slate-100 dark:bg-white/10 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[98%]"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm font-medium">Mobile-First Experience</span>
+<div class="w-2/3 h-2 bg-slate-100 dark:bg-white/10 rounded-full overflow-hidden">
+<div class="bg-primary h-full w-[88%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Global Giants Card -->
+<div class="bg-white dark:bg-white/5 rounded-2xl border border-slate-200 dark:border-white/10 overflow-hidden shadow-sm">
+<div class="bg-slate-50 dark:bg-white/5 p-6 border-b border-slate-200 dark:border-white/10">
+<h3 class="text-xl font-bold flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-400">public</span>
+                                Global Giants
+                            </h3>
+<p class="text-slate-500 text-sm mt-1">Scale, Infrastructure, Enterprise Brand</p>
+</div>
+<div class="p-6 space-y-6">
+<div class="grid grid-cols-3 gap-4">
+<div class="text-center p-4 bg-slate-50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5">
+<div class="w-12 h-12 bg-white dark:bg-background-dark rounded-full mx-auto flex items-center justify-center mb-2 shadow-sm">
+<span class="text-xs font-bold text-slate-500">Salesforce</span>
+</div>
+<p class="text-xs font-semibold text-slate-600 dark:text-slate-400">CRM</p>
+</div>
+<div class="text-center p-4 bg-slate-50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5">
+<div class="w-12 h-12 bg-white dark:bg-background-dark rounded-full mx-auto flex items-center justify-center mb-2 shadow-sm">
+<span class="text-xs font-bold text-slate-500">Microsoft</span>
+</div>
+<p class="text-xs font-semibold text-slate-600 dark:text-slate-400">ERP/Office</p>
+</div>
+<div class="text-center p-4 bg-slate-50 dark:bg-white/5 rounded-xl border border-slate-100 dark:border-white/5">
+<div class="w-12 h-12 bg-white dark:bg-background-dark rounded-full mx-auto flex items-center justify-center mb-2 shadow-sm">
+<span class="text-xs font-bold text-slate-500">Google</span>
+</div>
+<p class="text-xs font-semibold text-slate-600 dark:text-slate-400">Workplace</p>
+</div>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-sm font-medium text-slate-600 dark:text-slate-400">Cloud Infrastructure</span>
+<div class="w-2/3 h-2 bg-slate-100 dark:bg-white/10 rounded-full overflow-hidden">
+<div class="bg-slate-400 h-full w-[98%]"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm font-medium text-slate-600 dark:text-slate-400">Global Connectivity</span>
+<div class="w-2/3 h-2 bg-slate-100 dark:bg-white/10 rounded-full overflow-hidden">
+<div class="bg-slate-400 h-full w-[95%]"></div>
+</div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm font-medium text-slate-600 dark:text-slate-400">Brand Trust (Enterprise)</span>
+<div class="w-2/3 h-2 bg-slate-100 dark:bg-white/10 rounded-full overflow-hidden">
+<div class="bg-slate-400 h-full w-[90%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Market Dynamics Section -->
+<section class="bg-primary/5 rounded-3xl p-8 border border-primary/10">
+<div class="flex flex-col md:flex-row gap-12 items-center">
+<div class="md:w-1/2 space-y-6">
+<h2 class="text-3xl font-bold tracking-tight">The Localization Advantage</h2>
+<p class="text-slate-600 dark:text-slate-400 leading-relaxed">
+                                Local SaaS providers win by tailoring products to Indonesian regulatory nuances (OMNIBUS Law, PPh 21, PPN) and consumer behavior (WhatsApp-centric workflows, E-wallet payments).
+                            </p>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary">task_alt</span>
+<div>
+<h4 class="font-bold text-sm">Regulatory Speed</h4>
+<p class="text-xs text-slate-500">Instant updates for new DJP tax regulations.</p>
+</div>
+</div>
+<div class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary">task_alt</span>
+<div>
+<h4 class="font-bold text-sm">Payment Native</h4>
+<p class="text-xs text-slate-500">Native support for BCA, Mandiri, OVO, and GoPay.</p>
+</div>
+</div>
+</div>
+<button class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:brightness-110 transition-all">Download Full Report</button>
+</div>
+<div class="md:w-1/2 relative">
+<div class="aspect-video w-full bg-white dark:bg-white/5 rounded-2xl shadow-xl border border-slate-200 dark:border-white/10 overflow-hidden flex items-center justify-center">
+<img class="w-full h-full object-cover opacity-80 mix-blend-multiply dark:mix-blend-overlay" data-alt="Data visualization charts and graphs representing growth" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDOJLkBoM1U6Q5tNVWunOOLJD0MFRkp6xRdzaTGMDAio-EuyapX3OXHJtf6o_42MGwrugZl8MLjiURCfv0oW3vlgWycRm4NIJGHA6TcQC1FIkAVgmxpdqM_bySb6kKIjx5SY4WFVt2SHR_gMIPxDr0RnUnZjLMNRejTDRhqQm0uaRiJcZBD-1xP8K8WP42XkkX3jc-3vi3BuxT7aoONenGm7-94-ewmDcrbHmNFv4Ww3Urgsc7tUYpsVOoRN4nJ1ee3gbtN4IDjOg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+<span class="absolute material-symbols-outlined text-6xl text-white drop-shadow-lg">bar_chart</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer Stats -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-6 py-8 border-t border-slate-200 dark:border-white/10">
+<div class="space-y-1">
+<p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Active SME Users</p>
+<p class="text-2xl font-bold">1.2M+</p>
+</div>
+<div class="space-y-1">
+<p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Compliance Rating</p>
+<p class="text-2xl font-bold text-primary">9.8/10</p>
+</div>
+<div class="space-y-1">
+<p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Global Ingress</p>
+<p class="text-2xl font-bold">38%</p>
+</div>
+<div class="space-y-1">
+<p class="text-slate-400 text-xs font-bold uppercase tracking-widest">Local Retention</p>
+<p class="text-2xl font-bold">84%</p>
+</div>
+</section>
+</main>
+<footer class="bg-white dark:bg-white/5 border-t border-slate-200 dark:border-white/10 py-10 px-6">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between gap-8">
+<div class="space-y-4">
+<div class="flex items-center gap-2 text-primary">
+<span class="material-symbols-outlined font-bold">insights</span>
+<span class="font-bold text-slate-900 dark:text-slate-100">SaaS Insights Indonesia</span>
+</div>
+<p class="text-slate-500 text-sm max-w-xs">Monitoring the pulse of Southeast Asia's fastest-growing digital economy.</p>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 gap-12">
+<div class="space-y-3">
+<h4 class="font-bold text-sm">Resources</h4>
+<ul class="text-sm text-slate-500 space-y-2">
+<li><a class="hover:text-primary" href="#">Annual Report</a></li>
+<li><a class="hover:text-primary" href="#">Whitepapers</a></li>
+<li><a class="hover:text-primary" href="#">API Docs</a></li>
+</ul>
+</div>
+<div class="space-y-3">
+<h4 class="font-bold text-sm">Company</h4>
+<ul class="text-sm text-slate-500 space-y-2">
+<li><a class="hover:text-primary" href="#">About Us</a></li>
+<li><a class="hover:text-primary" href="#">Methodology</a></li>
+<li><a class="hover:text-primary" href="#">Contact</a></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="max-w-7xl mx-auto pt-10 mt-10 border-t border-slate-100 dark:border-white/5 text-center text-xs text-slate-400">
+                    © 2024 SaaS Insights Indonesia. All rights reserved. Competitive data updated weekly.
+                </div>
+</footer>
+</div>
+</div>
+</body></html>

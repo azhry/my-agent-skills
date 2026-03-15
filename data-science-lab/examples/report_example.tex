@@ -1,0 +1,804 @@
+\documentclass[aspectratio=169]{beamer}
+
+% =================================================
+% Packages
+% =================================================
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{hyperref}
+\usepackage{caption}
+
+% =================================================
+% Colors (AWS-inspired palette)
+% =================================================
+\definecolor{AWSOrange}{RGB}{255,153,0}
+\definecolor{AWSBlue}{RGB}{0,161,201}
+\definecolor{AWSDark}{RGB}{35,47,62}
+\definecolor{AWSYellow}{RGB}{255,215,0}
+\definecolor{AWSGreen}{RGB}{63,134,36}
+\definecolor{AWSPurple}{RGB}{148,0,211}
+\definecolor{AWSRed}{RGB}{219,68,55}
+
+% =================================================
+% Beamer setup
+% =================================================
+\setbeamercolor{background canvas}{bg=white}
+\setbeamercolor{normal text}{fg=black}
+\setbeamercolor{title}{fg=black}
+\setbeamercolor{block title}{fg=white,bg=AWSBlue}
+\setbeamercolor{block body}{fg=black,bg=white}
+\setbeamercolor{itemize item}{fg=AWSOrange}
+\setbeamercolor{enumerate item}{fg=AWSBlue}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}{
+    \leavevmode%
+    \hbox{%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1ex,left]{author in head/foot}%
+        \hskip1ex\insertshortauthor
+    \end{beamercolorbox}%
+    \begin{beamercolorbox}[wd=.5\paperwidth,ht=2.5ex,dp=1ex,right]{date in head/foot}%
+        \insertframenumber{} / \inserttotalframenumber\hskip1ex
+    \end{beamercolorbox}}%
+    \vskip0pt%
+}
+
+% =================================================
+% Custom highlight commands
+% =================================================
+\newcommand{\hl}[1]{\textcolor{AWSOrange}{\textbf{#1}}}
+\newcommand{\hlb}[1]{\textcolor{AWSBlue}{\textbf{#1}}}
+\newcommand{\hlg}[1]{\textcolor{AWSGreen}{\textbf{#1}}}
+\newcommand{\hly}[1]{\textcolor{AWSYellow}{\textbf{#1}}}
+\newcommand{\hlr}[1]{\textcolor{AWSRed}{\textbf{#1}}}
+
+% =================================================
+% Title Info
+% =================================================
+\title{\Large\textbf{Lab 1 Report} \\ Machine Learning pada Dataset Palmer Penguins}
+\subtitle{Advanced Machine Learning Course}
+\author{Azhary Arliansyah - 2406385901}
+\institute{Magister Ilmu Komputer \\ Universitas Indonesia}
+\date{\today}
+
+% =================================================
+% Document
+% =================================================
+\begin{document}
+
+% ---------- Title ----------
+\begin{frame}[plain]
+    \vspace{5mm}
+    {\Huge\bfseries\inserttitle\par}
+    \vspace{3mm}
+    {\large\color{gray}\insertsubtitle\par}
+    \vspace{8mm}
+    {\large\insertauthor\par}
+    {\normalsize\insertinstitute\par}
+    \vfill
+    
+    % AWS-style decorative bar
+    \begin{beamercolorbox}[wd=\paperwidth,ht=0.5cm,dp=0cm]{}
+        \hspace{0cm}\textcolor{AWSOrange}{\rule{3cm}{0.3cm}}
+        \textcolor{AWSBlue}{\rule{3cm}{0.3cm}}
+        \textcolor{AWSGreen}{\rule{3cm}{0.3cm}}
+    \end{beamercolorbox}
+\end{frame}
+
+% ---------- Outline ----------
+\begin{frame}{Outline}
+    \tableofcontents
+\end{frame}
+
+% =================================================
+\section{Introduction}
+% =================================================
+
+\begin{frame}{Introduction}
+\fontsize{11}{12}\selectfont
+
+\textbf{Dataset Palmer Penguins}
+
+\vspace{0.2in}
+\begin{columns}
+\column{0.6\textwidth}
+\begin{itemize}
+    \item \hlg{344 sampel} penguin dari 3 pulau di Antarktika
+    \item \hlg{3 spesies}: 
+    \begin{itemize}
+        \item Adelie (152)
+        \item Gentoo (124)  
+        \item Chinstrap (68)
+    \end{itemize}
+    \item \hlb{7 fitur}: bill length/depth, flipper length, body mass, island, sex, year
+\end{itemize}
+
+\column{0.4\textwidth}
+\begin{center}
+\begin{tabular}{ccc}
+\rowcolor{AWSGreen!30}
+Adelie & Gentoo & Chinstrap \\
+\end{tabular}
+\end{center}
+\end{columns}
+
+\vspace{0.3in}
+\textbf{Pendekatan:}
+
+\begin{enumerate}
+    \item \textbf{Linear Regression} 
+    \item \textbf{Logistic Regression}
+    \item \textbf{FCNN} (Fully Connected Neural Network)
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Objectives}
+\fontsize{11}{12}\selectfont
+
+\textbf{Dua Tugas Machine Learning:}
+
+\vspace{0.2in}
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{Classification}
+Memprediksi spesies penguin dari pengukuran fisik
+\begin{itemize}
+    \item \hlb{Features}: bill length, bill depth, flipper length, body mass, island, sex
+    \item \hlg{Target}: species (3 kelas)
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{Regression}
+Memprediksi body mass dari pengukuran fisik
+\begin{itemize}
+    \item \hlb{Features}: bill length, bill depth, flipper length, island, sex
+    \item \hl{Target}: body mass (kontinu)
+\end{itemize}
+\end{block}
+\end{columns}
+
+\vspace{0.2in}
+\hly{Tujuan}: Membandingkan metode linear tradisional dengan neural networks
+\end{frame}
+
+% ============================================================================
+\section{Exploratory Data Analysis}
+% ============================================================================
+
+\begin{frame}{Dataset Overview}
+\fontsize{10}{11}\selectfont
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{Dataset Statistics}
+\begin{itemize}
+    \item \hlg{344 sampel} penguin
+    \item \hlb{7 fitur} (4 numerik, 3 kategorik)
+    \item \hl{Target}: species (3 kelas)
+    \item Missing values: 2-11 per kolom
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{Feature Types}
+\begin{itemize}
+    \item \hlb{Numerik}: bill length, bill depth, flipper length, body mass
+    \item \hlg{Kategorik}: species, island, sex
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Numerical Features Distribution}
+\fontsize{9}{10}\selectfont
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{labs/lab1/images/eda_numerical_distributions.png}
+\end{center}
+
+\column{0.5\textwidth}
+\begin{block}{Key Observations}
+\begin{itemize}
+    \item \hlg{Flipper Length}: Gentoo paling besar (mean ~217mm)
+    \item \hlb{Bill Length}: Chinstrap paling panjang (mean ~48mm)
+    \item \hl{Body Mass}: Gentoo ~5500g, Adelie ~3700g
+    \item \hly{Skewness}: Sebagian besar fitur slightly right-skewed
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Correlation Analysis}
+\fontsize{9}{10}\selectfont
+
+\begin{columns}
+\column{0.45\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{labs/lab1/images/eda_correlation_matrix.png}
+\end{center}
+
+\column{0.55\textwidth}
+\begin{block}{Feature Correlations}
+\begin{itemize}
+    \item \hlg{body mass --> flipper}: r=0.87 (sangat kuat)
+    \item \hlb{bill length --> flipper}: r=0.65 (kuat)
+    \item \hl{bill depth --> flipper}: r=0.58 (sedang)
+    \item \hly{Multicollinearity}: Tinggi antara body mass dan flipper
+\end{itemize}
+\end{block}
+\end{columns}
+
+\vspace{0.1in}
+\textit{"Feature multicollinearity perlu diperhatikan untuk linear regression models"}
+\end{frame}
+
+\begin{frame}{Species Box Plot Analysis}
+\fontsize{9}{10}\selectfont
+
+\begin{columns}
+\column{0.55\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{labs/lab1/images/eda_species_numerical.png}
+\end{center}
+
+\column{0.45\textwidth}
+\begin{block}{Box Plot Analysis}
+\begin{itemize}
+    \item \hlg{Gentoo}: Highest body mass (~5500g) and flipper length (~217mm)
+    \item \hlb{Adelie}: Smallest species (~3700g), overlap dengan Gentoo di beberapa fitur
+    \item \hl{Chinstrap}: Longest bill length (~48mm), clearly separated dari yang lain
+    \item \hly{All species} menunjukkan perbedaan signifikan di semua fitur (ANOVA p$<$0.001)
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Island Distribution Analysis}
+\fontsize{9}{10}\selectfont
+
+\begin{columns}
+\column{0.55\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{labs/lab1/images/eda_island_species.png}
+\end{center}
+
+\column{0.45\textwidth}
+\begin{block}{Geographic Distribution}
+\begin{itemize}
+    \item \hlg{Torgersen Island}: Only Adelie penguins (100\%)
+    \item \hlb{Biscoe Island}: Mostly Gentoo (94\%), sisanya Adelie
+    \item \hl{Dream Island}: Mixed - Adelie (51\%) and Chinstrap (49\%)
+    \item \hly{Insight}: Island dapat menjadi predictor penting untuk species
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Key EDA Findings}
+\fontsize{11}{12}\selectfont
+
+\begin{block}{Important Insights}
+\begin{enumerate}
+    \item \hlg{Clear Class Separation}: Species memiliki karakteristik fisik yang berbeda
+    \item \hlb{Strong Correlations}: Body mass dan flipper length berkorelasi kuat
+    \item \hl{Island Distribution}: Torgersen hanya Adelie, Biscoe mainly Gentoo, Dream mix
+    \item \hly{Sexual Dimorphism}: Males generally larger than females
+    \item \hlr{Outliers}: Hanya 2-6 outliers per fitur (2\% data)
+\end{enumerate}
+\end{block}
+
+\vspace{0.2in}
+\textit{\hlg{"EDA reveals that the Palmer Penguins dataset is well-suited for classification tasks."}}
+\end{frame}
+
+% ============================================================================
+\section{Data Preparation}
+% ============================================================================
+
+\begin{frame}{Data Preparation Pipeline}
+\fontsize{10}{11}\selectfont
+
+\begin{center}
+\begin{tabular}{lcl}
+\toprule
+Step & Description & Output \\
+\midrule
+1. Data Loading & Load penguins.csv & 344 rows \\
+2. Validation & Check data types & Valid \\
+3. Missing Values & Drop NaN rows & 342 rows \\
+4. Feature Engineering & BMI proxy, ratios & New features \\
+5. Encoding & Label encoding & Numeric features \\
+6. Scaling & StandardScaler & Scaled features \\
+7. Train/Test Split & 80/20 stratified & Train: 266, Test: 67 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.2in}
+\hlg{Result}: Dataset bersih dengan 342 sampel, 6 features, siap untuk modeling
+\end{frame}
+
+\begin{frame}{Feature Selection Analysis}
+\fontsize{10}{11}\selectfont
+
+Analisis feature importance menggunakan ANOVA F-scores:
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lcc}
+\toprule
+Feature & F-Score & Importance \\
+\midrule
+flipper\_length\_mm & 650.2 & \hlg{Very High} \\
+bill\_length\_mm & 420.1 & \hlg{Very High} \\
+body\_mass\_g & 380.5 & \hlb{High} \\
+bill\_depth\_mm & 210.3 & \hlb{High} \\
+island\_encoded & 85.2 & \hly{Medium} \\
+sex\_encoded & 45.1 & \hly{Medium} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.2in}
+\textbf{Insight Utama}: \hl{Flipper length} dan \hl{Bill length} adalah fitur paling diskriminatif.
+\end{frame}
+
+% ============================================================================
+\section{Linear Regression}
+% ============================================================================
+
+\begin{frame}{Linear Regression: Experiment Setup}
+\fontsize{10}{11}\selectfont
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{Classification Approach}
+\begin{itemize}
+    \item Treat classification sebagai regression
+    \item Map predictions ke classes (0, 1, 2)
+    \item Simple tapi efektif!
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{Hyperparameters Tested}
+\begin{itemize}
+    \item Ridge: $\alpha \in \{0.001, ..., 100\}$
+    \item Lasso: $\alpha \in \{0.001, ..., 100\}$
+    \item Scaling: Standard, MinMax
+    \item Feature Selection: $k \in \{2,3,4,5,6\}$
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Linear Regression Classification Results}
+\fontsize{10}{11}\selectfont
+
+\begin{table}[htbp]
+\centering
+\caption{Classification Results}
+\begin{tabular}{lcc}
+\toprule
+Model & Accuracy & F1-Score \\
+\midrule
+Baseline & 97.01\% & 0.9706 \\
+Ridge $\alpha$=0.001-10.0 & 97.01\% & 0.9706 \\
+Ridge $\alpha$=100.0 & 95.52\% & 0.9556 \\
+Lasso $\alpha$=0.001-0.01 & 97.01\% & 0.9706 \\
+Lasso $\alpha$=0.1 & \hlr{94.03\%} & 0.9412 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.1in}
+\hlg{Finding}: Ridge regularization stabil di semua nilai $\alpha$. Lasso menurun pada $\alpha$=0.1.
+\end{frame}
+
+\begin{frame}{Linear Regression Regression Results}
+\fontsize{10}{11}\selectfont
+
+\begin{table}[htbp]
+\centering
+\caption{Regression Results}
+\begin{tabular}{lccc}
+\toprule
+Model & MSE & RMSE & R2 Score \\
+\midrule
+Baseline & 138,519 & 372.18 & 0.7726 \\
+Ridge $\alpha$=1.0 & 138,375 & 371.99 & 0.7728 \\
+Lasso $\alpha$=10.0 & 136,001 & 368.78 & \hlg{\textbf{0.7767}} \\
+Lasso $\alpha$=100.0 & 164,571 & 405.67 & 0.7298 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hl{Best Result}: Lasso $\alpha$=10.0 mencapai R2=0.7767 (77.67\% variance explained)
+\end{frame}
+
+\begin{frame}{Linear Regression: Actual vs Predicted}
+\fontsize{10}{11}\selectfont
+
+\begin{center}
+\includegraphics[width=0.75\textwidth]{labs/lab1/images/linear_regression_baseline.png}
+\end{center}
+
+\hlb{Observation}: Model menangkap trend umum, beberapa variansi masih ada
+\end{frame}
+
+% ============================================================================
+\section{Logistic Regression}
+% ============================================================================
+
+\begin{frame}{Logistic Regression: Experiment Setup}
+\fontsize{10}{11}\selectfont
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{Solvers Tested}
+\begin{itemize}
+    \item lbfgs
+    \item newton-cg
+    \item sag
+    \item saga
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{Regularization}
+\begin{itemize}
+    \item L1 (saga solver)
+    \item L2 (lbfgs solver)
+    \item C $\in \{0.01, 0.1, 1.0, 10.0\}$
+\end{itemize}
+\end{block}
+\end{columns}
+
+\vspace{0.2in}
+\hly{Goal}: Menemukan konfigurasi optimal untuk klasifikasi spesies penguin
+\end{frame}
+
+\begin{frame}{Logistic Regression Results}
+\fontsize{10}{11}\selectfont
+
+\begin{table}[htbp]
+\centering
+\caption{Classification Results}
+\begin{tabular}{lcc}
+\toprule
+Model & Accuracy & F1-Score \\
+\midrule
+Baseline & 98.51\% & 0.9852 \\
+Ridge Classifier & \hlg{\textbf{100.00\%}} & \textbf{1.0000} \\
+Solver lbfgs & 98.51\% & 0.9852 \\
+Solver newton-cg & \hlg{\textbf{100.00\%}} & \textbf{1.0000} \\
+Solver sag & 64.18\% & 0.5695 \\
+Solver saga & 62.69\% & 0.5556 \\
+L2 C=0.1 & \hlg{\textbf{100.00\%}} & \textbf{1.0000} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hl{Amazing!}: Multiple configurations mencapai 100\% accuracy
+\end{frame}
+
+\begin{frame}{Confusion Matrix Comparison}
+\fontsize{10}{11}\selectfont
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{labs/lab1/images/logistic_classification_confusion_matrices.png}
+\end{center}
+
+\hlg{Left}: Logistic Regression (98.51\%) \quad \hlg{Right}: Ridge Classifier (100\%)
+\end{frame}
+
+\begin{frame}{Why Does Logistic Regression Work So Well?}
+\fontsize{10}{12}\selectfont
+
+\begin{enumerate}
+    \item \textbf{Clear Class Boundaries}
+    \hlg{}: Species memiliki karakteristik fisik yang berbeda
+    
+    \item \textbf{Important Features}
+    \hlb{}: Bill length dan flipper length sangat memisahkan species
+    
+    \item \textbf{No Overfitting}
+    \hly{}: Dataset kecil (344 sampel), model sederhana lebih baik
+    
+    \item \textbf{Linear Separability}
+    \hl{}: Species largely linearly separable
+\end{enumerate}
+
+\vspace{0.3in}
+\begin{center}
+\textit{\hlg{"Simple models work well on clean, well-structured data."}}
+\end{center}
+\end{frame}
+
+% ============================================================================
+\section{Fully Connected Neural Network}
+% ============================================================================
+
+\begin{frame}{FCNN Architecture}
+\fontsize{10}{11}\selectfont
+
+\begin{center}
+\begin{block}{Network Architecture}
+\begin{itemize}
+    \item \hlb{Input Layer}: 6 features
+    \item \hlb{Hidden Layers}: Configurable [32], [64,32], [128,64,32]
+    \item \hlb{Output Layer}: 3 classes (classification) / 1 value (regression)
+    \item \hlb{Activations}: ReLU, Sigmoid, Tanh
+    \item \hlb{Regularization}: Dropout, Batch Normalization
+\end{itemize}
+\end{block}
+\end{center}
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{Classification}
+\begin{itemize}
+    \item Input: 6 features
+    \item Hidden: configurable
+    \item Output: 3 classes
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{Regression}
+\begin{itemize}
+    \item Input: 5 features
+    \item Hidden: configurable  
+    \item Output: 1 value
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{FCNN Classification Results}
+\fontsize{10}{11}\selectfont
+
+\begin{table}[htbp]
+\centering
+\caption{Architecture Experiments}
+\begin{tabular}{lcc}
+\toprule
+Configuration & Accuracy & F1-Score \\
+\midrule
+Layers [32] & \hlg{\textbf{100.00\%}} & \textbf{1.0000} \\
+Layers [64,32] & 98.51\% & 0.9852 \\
+Layers [128,64,32] & \hlg{\textbf{100.00\%}} & \textbf{1.0000} \\
+Sigmoid & \hlg{\textbf{100.00\%}} & \textbf{1.0000} \\
+Dropout 0.3 & \hlg{\textbf{100.00\%}} & \textbf{1.0000} \\
+lr=0.01 & \hlg{\textbf{100.00\%}} & \textbf{1.0000} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hl{FCNN} achieves 100\% accuracy! Dataset sangat mudah diklasifikasikan.
+\end{frame}
+
+\begin{frame}{FCNN Training Curves}
+\fontsize{10}{11}\selectfont
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{labs/lab1/images/fcnn_training_curves.png}
+\end{center}
+
+\hlg{Left}: Training loss decreases \quad \hlb{Right}: Accuracy reaches 100\%
+\end{frame}
+
+\begin{frame}{FCNN Regression Results}
+\fontsize{10}{11}\selectfont
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lccc}
+\toprule
+Model & MSE & RMSE & R2 \\
+\midrule
+Baseline (lr=0.001) & 850,308 & 922.12 & -0.3962 \\
+FCNN (lr=0.1) & 117,934 & 343.47 & \hlg{\textbf{0.8064}} \\
+FCNN (lr=0.01) & 165,320 & 406.60 & 0.7286 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hl{Critical}: Learning rate sangat penting untuk regression!
+\end{frame}
+
+\begin{frame}{FCNN Regression Plot}
+\fontsize{10}{11}\selectfont
+
+\begin{center}
+\includegraphics[width=0.75\textwidth]{labs/lab1/images/fcnn_regression_plot.png}
+\end{center}
+
+\hlg{FCNN} with lr=0.1 outperforms all linear models!
+\end{frame}
+
+% ============================================================================
+\section{Model Comparison}
+% ============================================================================
+
+\begin{frame}{Classification Comparison}
+\fontsize{10}{11}\selectfont
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Model & Accuracy & F1-Score \\
+\midrule
+\hlg{Logistic Regression} & 100.00\% & 1.0000 \\
+\hlb{FCNN} & 98.51\% & 0.9852 \\
+\hl{Linear Regression} & 97.01\% & 0.9706 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.3in}
+\hlg{All models} achieve 95\%+ accuracy!
+\end{frame}
+
+\begin{frame}{Regression Comparison}
+\fontsize{10}{11}\selectfont
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lccc}
+\toprule
+Model & MSE & RMSE & R2 \\
+\midrule
+\hlg{FCNN (lr=0.1)} & 117,934 & 343.47 & \textbf{0.8064} \\
+Lasso $\alpha$=10.0 & 136,001 & 368.78 & 0.7767 \\
+Linear Regression & 138,519 & 372.18 & 0.7726 \\
+Ridge $\alpha$=1.0 & 138,375 & 371.99 & 0.7728 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\hlg{\textbf{Winner}}: FCNN dengan lr=0.1 mengungguli semua model linear sebesar 3\%
+\end{frame}
+
+% ============================================================================
+\section{Discussion}
+% ============================================================================
+
+\begin{frame}{Key Findings}
+\fontsize{10}{11}\selectfont
+
+\begin{enumerate}
+    \item \textbf{Classification is Easy}
+    \begin{itemize}
+        \item Semua model mencapai 95\%+
+        \item Species memiliki karakteristik fisik berbeda
+    \end{itemize}
+    
+    \item \textbf{Regularization Effects}
+    \begin{itemize}
+        \item Ridge: Stabil
+        \item Lasso: Agresif pada $\alpha$ tinggi
+    \end{itemize}
+    
+    \item \textbf{Neural Networks for Regression}
+    \begin{itemize}
+        \item Memerlukan tuning lr yang cermat
+        \item lr salah = non-konvergensi
+    \end{itemize}
+    
+    \item \textbf{Data Quality}
+    \begin{itemize}
+        \item Dataset bersih dengan pola jelas
+        \item Model sederhana bekerja dengan baik
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Lessons Learned}
+\fontsize{10}{11}\selectfont
+
+\begin{columns}
+\column{0.5\textwidth}
+\hlg{Start Simple}
+\begin{itemize}
+    \item Linear/Logistic Regression baseline excellent
+\end{itemize}
+
+\hlb{Understand Data}
+\begin{itemize}
+    \item EDA revealed clear separations
+\end{itemize}
+
+\column{0.5\textwidth}
+\hl{Hyperparameters Matter}
+\begin{itemize}
+    \item Especially untuk neural networks
+\end{itemize}
+
+\hly{Regularization}
+\begin{itemize}
+    \item Ridge vs Lasso berbeda behavior
+\end{itemize}
+\end{columns}
+
+\vspace{0.3in}
+\begin{center}
+\textit{\hlb{"Best model is often simplest that achieves your goals."}}
+\end{center}
+\end{frame}
+
+% ============================================================================
+\section{Conclusion}
+% ============================================================================
+
+\begin{frame}{Summary of Results}
+\fontsize{10}{11}\selectfont
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{Classification}
+\hlg{Best}: Logistic Regression = 100\%
+\begin{itemize}
+    \item Linear Regression: 97.01\%
+    \item FCNN: 98.51\%
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{Regression}
+\hlg{Best}: FCNN lr=0.1 = 0.81 R2
+\begin{itemize}
+    \item Linear Regression: 0.77
+    \item Lasso: 0.78
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Recommendations}
+\fontsize{10}{11}\selectfont
+
+\begin{enumerate}
+    \item \textbf{For Classification}: Gunakan Logistic Regression
+    \begin{itemize}
+        \item Simple, interpretable, fast
+        \item 100\% accuracy
+    \end{itemize}
+    
+    \item \textbf{For Regression}: FCNN dengan lr=0.01-0.1
+    \begin{itemize}
+        \item Outperforms linear models
+    \end{itemize}
+    
+    \item \textbf{For Baseline}: Always try Linear/Ridge/Lasso first
+    \begin{itemize}
+        \item Good baseline
+        \item Interpretable
+        \item Fast
+    \end{itemize}
+\end{enumerate}
+\end{frame}
+
+\begin{frame}
+\begin{center}
+\textit{\textcolor{gray}{Disclaimer: The insights and recommendations presented herein may contain inaccuracies. \\ Please use these findings as preliminary guidance rather than definitive conclusions. \\ All strategic decisions should be independently verified and consulted with domain experts.}}
+\end{center}
+\end{frame}
+
+\begin{frame}{Final Thoughts}
+\begin{itemize}
+\item \hlb{Lab ini menunjukkan bahwa metode linear sederhana dapat mencapai performa excellent}
+\item \hl{Neural networks memberikan peningkatan untuk regression}
+\end{itemize}
+\vspace{0.3in}
+\textbf{Terima kasih!}
+\end{frame}
+
+\end{document}
