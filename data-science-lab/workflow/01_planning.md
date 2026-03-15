@@ -37,19 +37,25 @@ Should I proceed? Let me know if any tools need to be set up first.
 
 ### Linear App (Task Management)
 
-Linear is used for tracking lab tasks. The agent should use these **Linear MCP tools** directly:
+Linear is used for tracking lab tasks. The agent MUST use these **Linear MCP tools** directly and provide high-quality context for every task:
 
 | Action | MCP Tool | Example |
 |--------|----------|---------|
-| Create a task | `save_issue` | `save_issue(title="Lab 1: Train classifier", team="...", labels=["lab 1"])` |
+| Create a task | `save_issue` | `save_issue(title="[EDA] Analyze Census Data", description="# Objective\nPerform full EDA to find correlations.\n# Definition of Done\n- [ ] Missing values handled\n- [ ] Plots saved", team="XYZ", labels=["lab 1"])` |
 | Update task status | `save_issue` | `save_issue(id="...", state="In Progress")` |
 | List tasks | `list_issues` | `list_issues(project="ML Course")` |
-| Get task details | `get_issue` | `get_issue(id="...")` |
 
-The agent should:
-1. Create issues with proper labels (e.g., `"lab 1"`, `"lab 2"`, `"final project"`)
-2. Move issues to `"In Progress"` when starting work
-3. Move issues to `"In Review"` when complete
+**CRITICAL TASK REQUIREMENTS:**
+1. **Title**: Concise but descriptive (e.g., `[EDA] Analyze Feature Correlations in Census Data`).
+2. **Description**: Every task MUST include:
+   - **Objective**: What are we trying to achieve?
+   - **Reasoning**: Why is this step necessary for the overall goal?
+   - **Definition of Done (DoD)**: A checklist of exactly what must be completed for this task to be considered finished.
+3. **Labels**: Always include the project/lab label (e.g., `"lab 1"`).
+4. **Lifecycle**: 
+   - Move to `"In Progress"` when starting.
+   - Attach a comment with initial thoughts/hypotheses using `save_comment`.
+   - Move to `"Done"` (or `"In Review"`) only when DoD is fully met.
 
 ### Markdown-Based Task Tracking (Alternative to Linear)
 

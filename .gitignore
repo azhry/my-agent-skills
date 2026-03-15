@@ -1,2 +1,3 @@
 plans
 dummy-test
+**/*/__pycache__

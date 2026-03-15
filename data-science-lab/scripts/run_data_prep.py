@@ -94,7 +94,10 @@ def _classify_columns(df: pd.DataFrame,
         if pd.api.types.is_datetime64_any_dtype(dtype):
             datetime_cols.append(col)
         elif pd.api.types.is_numeric_dtype(dtype):
-            if nunique / max(len(df), 1) >= id_threshold:
+            # Only consider high unique ratios as IDs for integer-like or string-like data
+            # Continuous floats should not be treated as IDs by default
+            is_float = pd.api.types.is_float_dtype(dtype)
+            if not is_float and nunique / max(len(df), 1) >= id_threshold:
                 id_like.append(col)
             else:
                 numerical.append(col)
@@ -674,11 +677,25 @@ def export_prepared_data(split: dict,
 
     # Scaled
     if scale_exports and scaler is not None:
-        # Use the passed scaler (already fitted in the pipeline) to ensure consistency
-        X_train_sc = pd.DataFrame(scaler.transform(X_train),
-                                  columns=features)
-        X_test_sc = pd.DataFrame(scaler.transform(X_test),
-                                 columns=features)
+        # Determine which columns to scale (those the scaler was fitted on)
+        # scikit-learn scalers store feature_names_in_ if fitted on a DataFrame
+        fit_features = getattr(scaler, 'feature_names_in_', None)
+        
+        X_train_sc = X_train.copy()
+        X_test_sc = X_test.copy()
+
+        if fit_features is not None:
+            # Scale only the features we know about
+            existing_fit_features = [f for f in fit_features if f in X_train.columns]
+            X_train_sc[existing_fit_features] = scaler.transform(X_train[existing_fit_features])
+            X_test_sc[existing_fit_features] = scaler.transform(X_test[existing_fit_features])
+        else:
+            # Fallback for older sklearn or if not fitted on DF: 
+            # assume numerical columns from col_info were used
+            num_cols = [c for c in X_train.columns if pd.api.types.is_numeric_dtype(X_train[c].dtype) 
+                        and not c.endswith('_encoded')]
+            X_train_sc[num_cols] = scaler.transform(X_train[num_cols])
+            X_test_sc[num_cols] = scaler.transform(X_test[num_cols])
 
         train_sc = X_train_sc.copy()
         train_sc['target'] = y_train.values

@@ -19,8 +19,14 @@ Read **only** the workflow module you need — don't read them all:
 | CSV + explicit goal | [04_data_prep.md](workflow/04_data_prep.md) | [05_modeling.md](workflow/05_modeling.md) |
 | Existing notebook | [03_eda.md](workflow/03_eda.md) | Continue from existing work |
 | Generate visualizations | [07_visualization.md](workflow/07_visualization.md) | — |
-| Write a report | [08_reporting.md](workflow/08_reporting.md) | — |
+| **FINISH RESEARCH / WRITE REPORT** | **[08_reporting.md](workflow/08_reporting.md)** | **(MANDATORY LAST STEP)** |
+| Report Result | Generates a 15+ slide high-quality LaTeX Beamer presentation summarizing everything. | `08_reporting.md` |
 | Something isn't working | [troubleshooting.md](workflow/troubleshooting.md) | — |
+
+> [!IMPORTANT]
+> **Reporting is MANDATORY.** After finishing your modeling and generating infographics, you MUST read `workflow/08_reporting.md` and generate a detailed LaTeX report summarizing your findings, even if the user didn't explicitly ask for one.
+>
+> **Process Documentation is MANDATORY.** You must document NOT ONLY the results, but the *reasoning* behind every step (EDA, Data Cleaning, Model choice, etc) in both your notebook comments and the final report.
 
 > [!TIP]
 > For a 20-line fast-path, see [QUICKSTART.md](QUICKSTART.md).
@@ -38,6 +44,8 @@ When user provides a goal, map to the appropriate approach:
 | "understand text" | NLP | TF-IDF + Classifier, BERT, Word2Vec |
 | "sentiment analysis" | NLP | VADER, TextBlob, Transformer Models |
 | "Recommend products" | recommendation | Collaborative Filtering, Matrix Factorization, KNN |
+8. **Process & Methodology**: This is CRITICAL. Include 2-3 slides documenting exactly what you did, the errors you encountered, the choices you made (e.g., "Why did you choose this imputation method?"), and the reasoning behind every significant step.
+9. **Conclusion & Recommendations**: Actionable insights based purely on data.
 
 For use case examples, see [examples/README.md](examples/README.md).
 
@@ -47,10 +55,12 @@ For use case examples, see [examples/README.md](examples/README.md).
 - **Jupyter** — `ipykernel` for notebook kernel
 - **Linear account** (optional) — for task tracking via MCP; use Markdown tasks if not available
 - **Data science packages** — pandas, numpy, scikit-learn, matplotlib, seaborn, plotly, tabulate
+- **Web Rendering (for Infographics)** — `playwright` (to convert Threejs/HTML infographics to images)
 
 ```bash
 uv venv
 uv pip install pandas numpy scikit-learn matplotlib seaborn plotly tabulate ipykernel
+uv pip install playwright && playwright install chromium
 python -m ipykernel install --user --name=my-env
 ```
 
@@ -132,25 +142,78 @@ save_all_plots(df, results_dir='images', metric='accuracy')  # Quick: save all s
 ```
 
 ### Infographics ([create_infographics.py](scripts/create_infographics.py))
+
+> [!CAUTION]
+> **INFOGRAPHIC QUALITY WARNING**: Infographics WITHOUT custom TailwindCSS and visual evidence (plots) are a mission failure. Do NOT use blank templates.
+
 ```python
-from create_infographics import create_experiment_infographic, create_comparison_infographic, create_mini_infographic, create_nlp_infographic, export_infographic, export_multi_format, quick_infographic
+from create_infographics import export_infographic, image_to_base64
 
-# Full infographic (hero banner, podium, heatmap, radar, stats card)
-fig = create_experiment_infographic(results_df, title='Lab 1', metric='accuracy', theme='dark', palette='ocean')
-export_infographic(fig, 'images/infographic.png', dpi=300)
+# 1. Embed your specific EDA plot
+plot_b64 = image_to_base64('images/my_evidence.png')
 
-# Comparison (classification vs regression side-by-side)
-fig = create_comparison_infographic(clf_df, reg_df, title='Comparison', theme='dark')
+# 2. Write BESPOKE, DENSE HTML/TailwindCSS directly tailored to the findings.
+# It MUST contain Empirical Results, Key Insights, and Strategic Recommendations.
+# Use explicit body dimensions (1920x1080) and soft colors (slate-800, #e05a5a).
+html = f"""
+<!DOCTYPE html>
+<html class="dark">
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {{ overflow: hidden; height: 1080px; width: 1920px; box-sizing: border-box; }}
+        .gradient-bg {{ background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); }}
+    </style>
+</head>
+<body class="gradient-bg p-8 text-white">
+    <main class="max-w-7xl mx-auto flex flex-col h-[1016px] justify-between">
+        <header class="border-b border-slate-700 pb-4">
+            <h1 class="text-5xl font-black text-white">Strategic Research Insights</h1>
+        </header>
+        
+        <div class="grid grid-cols-12 gap-6 mt-4">
+            <div class="col-span-7 bg-slate-800 p-6 rounded-3xl border border-slate-700 shadow-xl">
+                <h2 class="text-2xl font-bold mb-4 flex items-center">
+                    <span class="w-2 h-6 bg-blue-500 mr-3 rounded-full"></span>
+                    Visual Evidence
+                </h2>
+                <!-- Prefer CSS/SVG charts for top-level drivers; use base64 for complex plots -->
+                <img src="{plot_b64}" class="w-full rounded-2xl object-contain bg-white h-80 shadow-inner"/>
+            </div>
+            
+            <div class="col-span-5 flex flex-col gap-4">
+                <div class="bg-blue-900/20 p-6 rounded-3xl border border-blue-500/30 flex-1">
+                    <h2 class="text-xl font-bold text-blue-400 mb-2">Empirical Results</h2>
+                    <ul class="space-y-2 text-slate-300"><li>✓ Metric A: 85%</li><li>✓ Metric B: 12.4s</li></ul>
+                </div>
+                <div class="bg-purple-900/20 p-6 rounded-3xl border border-purple-500/30 flex-1">
+                    <h2 class="text-xl font-bold text-purple-400 mb-2">Key Insights</h2>
+                    <ul class="space-y-2 text-slate-300"><li>→ Decision X impacts Y</li></ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-emerald-900/20 p-6 rounded-3xl border border-emerald-500/30">
+            <h2 class="text-2xl font-bold text-emerald-400 mb-2 flex items-center">
+                <svg class="w-6 h-6 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                Strategic Recommendations
+            </h2>
+            <p class="text-slate-200 text-lg font-medium italic">Because of [Data Point], we must execute [Action].</p>
+        </div>
+    </main>
+</body>
+</html>
+"""
 
-# Compact version for reports
-fig = create_mini_infographic(results_df, title='Quick Summary', theme='dark')
-
-# One-liner from CSV
-quick_infographic('results/results.csv', 'images/infographic.png', title='Results')
-
-# Themes: 'dark', 'light'
-# Palettes: 'ocean', 'sunset', 'forest', 'purple', 'slate', 'candy'
+# 3. Export to PNG
+export_infographic(html, 'images/custom_infographic.png')
 ```
+
+> [!IMPORTANT]
+> **Strategic Value Rule**: Your infographics and reports MUST bridge the gap between "Data" and "Business Decision".
+> - ❌ WRONG: "Random Forest has 0.85 Accuracy. Deploy it."
+> - ✅ RIGHT: "High correlation between education and income (see images/corr.png). Increase regional school funding by 20% to reduce poverty in the long term."
+
 
 ## Workflow Steps (Read On-Demand)
 

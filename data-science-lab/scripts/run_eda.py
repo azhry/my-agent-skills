@@ -44,6 +44,10 @@ plt.rcParams['figure.figsize'] = (12, 8)
 plt.rcParams['font.size'] = 12
 sns.set_palette('husl')
 
+# Force non-interactive backend to avoid blocking dialogs
+import matplotlib
+matplotlib.use('Agg')
+
 MAX_CATEGORIES_FOR_PIE = 10
 MAX_CATEGORIES_FOR_BAR = 30
 OUTLIER_ZSCORE_THRESHOLD = 3.0
@@ -115,12 +119,12 @@ def _discuss(title: str, body: str):
 
 
 def _save_fig(fig, path: Optional[str], dpi: int = 150):
-    """Save figure to *path* (creating dirs) and then show it."""
+    """Save figure to *path* (creating dirs)."""
     if path:
         os.makedirs(os.path.dirname(path) or '.', exist_ok=True)
         fig.savefig(path, dpi=dpi, bbox_inches='tight')
         print(f"\n✅ Saved: {path}")
-    plt.show()
+        
     plt.close(fig)
 
 
@@ -348,14 +352,18 @@ def _plot_categorical_distributions(df, cols, output_dir):
         axes = np.array([axes])
     axes = axes.flatten()
 
+    fig.suptitle('Categorical Feature Distributions', fontsize=20, fontweight='bold', y=1.02)
+    plt.figtext(0.5, 0.01, "Percentage (%) for pie charts, Absolute counts for bar charts. Use for identifying class imbalance.", ha="center", fontsize=12, bbox={"facecolor":"orange", "alpha":0.2, "pad":5})
+
     for idx, col in enumerate(cols):
         ax = axes[idx]
         vc = df[col].value_counts()
         n_cats = len(vc)
 
         if n_cats <= MAX_CATEGORIES_FOR_PIE:
-            ax.pie(vc, labels=vc.index, autopct='%1.1f%%',
+            wedges, texts, autotexts = ax.pie(vc, labels=vc.index, autopct='%1.1f%%',
                    colors=sns.color_palette('husl', n_cats), startangle=90)
+            ax.legend(wedges, vc.index, title=col, loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
         elif n_cats <= MAX_CATEGORIES_FOR_BAR:
             ax.barh(vc.index, vc.values,
                     color=sns.color_palette('Set2', n_cats))
@@ -390,6 +398,9 @@ def _plot_numerical_distributions(df, cols, output_dir):
     if n == 1:
         axes = np.array([axes])
     axes = axes.flatten()
+
+    fig.suptitle('Numerical Feature Distributions', fontsize=20, fontweight='bold', y=1.02)
+    plt.figtext(0.5, 0.01, "Histograms show frequency; Red curve is KDE (Probability Density). Look for skewness or multi-modality.", ha="center", fontsize=12, bbox={"facecolor":"blue", "alpha":0.1, "pad":5})
 
     for idx, col in enumerate(cols):
         ax = axes[idx]
@@ -513,6 +524,9 @@ def _plot_grouped_boxplots(df, num_cols, target_col, output_dir):
         axes = np.array([axes])
     axes = axes.flatten()
 
+    fig.suptitle('Numerical Features Grouped by Target', fontsize=20, fontweight='bold', y=1.02)
+    plt.figtext(0.5, 0.01, f"Boxplots grouped by '{target_col}'. Separation between boxes suggests strong predictive power for that feature.", ha="center", fontsize=12, bbox={"facecolor":"green", "alpha":0.1, "pad":5})
+
     for idx, col in enumerate(num_cols):
         ax = axes[idx]
         sns.boxplot(data=df, x=target_col, y=col, ax=ax)
@@ -535,12 +549,14 @@ def _plot_scatter_matrix(df, num_cols, target_col, output_dir):
         sns.pairplot(df[num_cols + ([hue] if hue else [])].dropna(),
                      hue=hue, diag_kind='kde', corner=True)
         plt.suptitle('Scatter Matrix', y=1.02, fontsize=16, fontweight='bold')
+        plt.figtext(0.5, 0.01, "Pairwise relationships between numerical features. Diagonal shows KDE distributions. Useful for spotting linear correlations and clusters.", ha="center", fontsize=12, bbox={"facecolor":"purple", "alpha":0.1, "pad":5})
+
         if output_dir:
             path = os.path.join(output_dir, 'eda_scatter_matrix.png')
             os.makedirs(os.path.dirname(path) or '.', exist_ok=True)
             plt.savefig(path, dpi=150, bbox_inches='tight')
             print(f"\n✅ Saved: {path}")
-        plt.show()
+            
         plt.close('all')
     except Exception as e:
         print(f"⚠️  Scatter matrix skipped: {e}")
