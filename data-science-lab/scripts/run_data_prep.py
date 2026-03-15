@@ -674,10 +674,10 @@ def export_prepared_data(split: dict,
 
     # Scaled
     if scale_exports and scaler is not None:
-        sc = StandardScaler()
-        X_train_sc = pd.DataFrame(sc.fit_transform(X_train),
+        # Use the passed scaler (already fitted in the pipeline) to ensure consistency
+        X_train_sc = pd.DataFrame(scaler.transform(X_train),
                                   columns=features)
-        X_test_sc = pd.DataFrame(sc.transform(X_test),
+        X_test_sc = pd.DataFrame(scaler.transform(X_test),
                                  columns=features)
 
         train_sc = X_train_sc.copy()

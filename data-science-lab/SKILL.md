@@ -625,3 +625,21 @@ docker run --rm -v "//$(pwd):/workdir" -w //workdir \
 | Table | `\begin{table}...\end{table}` | Table with caption |
 | Itemize | `\begin{itemize}...\end{itemize}` | Bullet points |
 | Equation | `$...$` | LaTeX math |
+
+#### Common LaTeX Errors and Fixes
+
+| Error | Cause | Fix |
+|-------|-------|-----|
+| `Undefined control sequence` | Typo in command name | Use `inserttotalframenumber` (NOT `inserttotalframerumber` - common typo!) |
+| `There's no line here to end` | Empty line after `\\` | Remove empty line breaks before line endings |
+| `Missing $ inserted` | Special characters in text mode | Use `\textit{}` or `\textbf{}` for italic/bold |
+| `Package xcolor Error` | Missing table support | Use `\usepackage[table]{xcolor}` |
+| `Extra alignment tab` | Too many columns in table | Add more `&` to match column count |
+
+#### Best Practices for Lab Reports
+
+- **Verify CSV values match report**: Always cross-check numbers in LaTeX tables against the actual CSV results
+- **Use consistent decimal places**: Round to 2-4 decimal places for readability  
+- **Include all experiment variants**: Document baseline, regularized (Ridge/Lasso), scaled, and feature selection experiments
+- **Add visualization captions**: Every plot should have a descriptive caption
+- **Use professional themes**: `Madrid` + `whale` or `Berlin` + `whale` work well for presentations
