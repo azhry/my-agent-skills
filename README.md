@@ -35,6 +35,14 @@ A skill for turning papers into well-structured articles with diagrams.
 - **How it works**: It follows an 8-step process I've refined to ensure everything renders correctly in dark mode and mobile.
 - **⚠️ Important**: This skill specifically targets my personal website's custom renderer and database schema. It is not currently standalone.
 
+### 🔬 [Data Science Lab](./data-science-lab/SKILL.md)
+End-to-end data science lab workflow from task planning to result analysis.
+- **What it does**: Creates Jupyter notebooks, runs experiments with hyperparameter sweeps, exports CSV results, generates publication-quality infographics, and writes reports.
+- **How it works**: A 10-step workflow with reusable helper scripts for EDA, data prep, analysis, visualization, and infographics. Includes Linear MCP (optional) or Markdown-based task tracking.
+- **Includes**: 
+  - `scripts/` with 5 helper modules (run_eda.py, run_data_prep.py, analyze_results.py, visualize.py, create_infographics.py)
+  - `examples/` with use cases: classification, regression, clustering, NLP sentiment, topic modeling, anomaly detection, forecasting, and recommendations
+
 ---
 
 ## 📖 How to use

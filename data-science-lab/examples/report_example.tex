@@ -1,0 +1,389 @@
+% =====================================================
+% Generic LaTeX Beamer Report Template
+% For Data Science Lab Presentations
+% =====================================================
+
+\documentclass[aspectratio=169]{beamer}
+
+% =================================================
+% Packages
+% =================================================
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{amsmath,amssymb}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage[table]{xcolor}
+\usepackage{hyperref}
+\usepackage{caption}
+
+% =================================================
+% Theme Settings
+% =================================================
+\usetheme{Madrid}
+\usecolortheme{whale}
+
+% Custom colors (optional)
+\definecolor{BrandColor}{RGB}{0,161,201}
+\definecolor{AccentColor}{RGB}{255,153,0}
+
+% =================================================
+% Custom Commands
+% =================================================
+\newcommand{\hl}[1]{\textcolor{AccentColor}{\textbf{#1}}}
+
+% =================================================
+% Title Info
+% =================================================
+\title{\Large\textbf{Lab X Report} \\ Machine Learning on [Dataset Name]}
+\subtitle{Advanced Machine Learning Course}
+\author{Name - NPM}
+\institute{Program Name \\ University}
+\date{\today}
+
+% =================================================
+% Document
+% =================================================
+\begin{document}
+
+% ---------- Title ----------
+\begin{frame}[plain]
+    \vspace{5mm}
+    {\Huge\bfseries\inserttitle\par}
+    \vspace{3mm}
+    {\large\color{gray}\insertsubtitle\par}
+    \vspace{8mm}
+    {\large\insertauthor\par}
+    {\normalsize\insertinstitute\par}
+    \vfill
+\end{frame}
+
+% ---------- Outline ----------
+\begin{frame}{Outline}
+    \tableofcontents
+\end{frame}
+
+% =================================================
+\section{Introduction}
+% =================================================
+
+\begin{frame}{Introduction}
+\fontsize{11}{12}\selectfont
+
+\textbf{Dataset Overview}
+
+\vspace{0.2in}
+\begin{columns}
+\column{0.6\textwidth}
+\begin{itemize}
+    \item \hl{[N]} samples from [source]
+    \item \hl{[M]} features: [list features]
+    \item \hl{Target}: [target column] ([type: classification/regression])
+\end{itemize}
+
+\column{0.4\textwidth}
+\begin{block}{Problem Type}
+    \begin{itemize}
+        \item Classification: [number] classes
+        \item Regression: continuous target
+    \end{itemize}
+\end{block}
+\end{columns}
+
+\vspace{0.3in}
+\textbf{Objectives:}
+\begin{enumerate}
+    \item Build baseline model
+    \item Experiment with [model family]
+    \item Compare results
+\end{enumerate}
+\end{frame}
+
+% =================================================
+\section{Exploratory Data Analysis}
+% =================================================
+
+\begin{frame}{Dataset Overview}
+\fontsize{10}{11}\selectfont
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{Dataset Statistics}
+\begin{itemize}
+    \item \hl{[N]} samples, \hl{[M]} features
+    \item \hl{Target}: [column name]
+    \item Missing values: [count/percentage]
+    \item Data types: [numerical/categorical mix]
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{Feature Types}
+\begin{itemize}
+    \item \hl{Numerical}: [list]
+    \item \hl{Categorical}: [list]
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Feature Distributions}
+\fontsize{9}{10}\selectfont
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{[path to distribution plot].png}
+\end{center}
+
+\column{0.5\textwidth}
+\begin{block}{Key Observations}
+\begin{itemize}
+    \item \hl{Feature 1}: [observation]
+    \item \hl{Feature 2}: [observation]
+    \item \hl{Distribution}: [normal/skewed/etc]
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Correlation Analysis}
+\fontsize{9}{10}\selectfont
+
+\begin{columns}
+\column{0.45\textwidth}
+\begin{center}
+\includegraphics[width=\textwidth]{[path to correlation matrix].png}
+\end{center}
+
+\column{0.55\textwidth}
+\begin{block}{Feature Correlations}
+\begin{itemize}
+    \item \hl{Strong}: [feature pair] (r=[value])
+    \item \hl{Moderate}: [feature pair] (r=[value])
+    \item \hl{Insight}: [implication for modeling]
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Key EDA Findings}
+\fontsize{11}{12}\selectfont
+
+\begin{block}{Important Insights}
+\begin{enumerate}
+    \item \hl{Insight 1}: [description]
+    \item \hl{Insight 2}: [description]
+    \item \hl{Data Quality}: [missing values, outliers notes]
+\end{enumerate}
+\end{block}
+
+\vspace{0.2in}
+\textit{\hl{[Key takeaway about the dataset]}}
+\end{frame}
+
+% =================================================
+\section{Data Preparation}
+% =================================================
+
+\begin{frame}{Preprocessing Pipeline}
+\fontsize{10}{11}\selectfont
+
+\begin{center}
+\begin{tabular}{lcl}
+\toprule
+Step & Description & Output \\
+\midrule
+1. & Load data & [N] rows \\
+2. & Handle missing & [method] \\
+3. & Encode features & [method] \\
+4. & Scale features & [method] \\
+5. & Split data & Train: [N], Test: [M] \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.2in}
+\hl{Result}: Clean dataset ready for modeling
+\end{frame}
+
+\begin{frame}{Feature Selection}
+\fontsize{10}{11}\selectfont
+
+Analisis feature importance:
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{lcc}
+\toprule
+Feature & Score & Importance \\
+\midrule
+feature1 & [value] & \hl{Very High} \\
+feature2 & [value] & \hlb{High} \\
+feature3 & [value] & \hly{Medium} \\
+feature4 & [value] & \hl{Low} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.2in}
+\textbf{Selected features}: [list]
+\end{frame}
+
+% =================================================
+\section{Model Name}
+% =================================================
+
+\begin{frame}{Experiment Setup}
+\fontsize{10}{11}\selectfont
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{Model Description}
+\begin{itemize}
+    \item Algorithm: [name]
+    \item Type: [classification/regression]
+    \item Assumptions: [list]
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{Hyperparameters}
+\begin{itemize}
+    \item Parameter 1: [values tested]
+    \item Parameter 2: [values tested]
+    \item Scaling: [yes/no]
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Results}
+\fontsize{10}{11}\selectfont
+
+\begin{table}[htbp]
+\centering
+\caption{Experiment Results}
+\begin{tabular}{lcc}
+\toprule
+Configuration & Metric 1 & Metric 2 \\
+\midrule
+Baseline & 0.XX & 0.XX \\
+Config 1 & 0.XX & 0.XX \\
+Config 2 & 0.XX & 0.XX \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\vspace{0.1in}
+\hl{Best Result}: [configuration] with [metric] = [value]
+\end{frame}
+
+% =================================================
+\section{Model Comparison}
+% =================================================
+
+\begin{frame}{Model Comparison}
+\fontsize{10}{11}\selectfont
+
+\begin{center}
+\begin{tabular}{lcc}
+\toprule
+Model & Metric 1 & Metric 2 \\
+\midrule
+\hlg{Model A} & 0.XX & 0.XX \\
+\hlb{Model B} & 0.XX & 0.XX \\
+\hl{Model C} & 0.XX & 0.XX \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\vspace{0.3in}
+\hlg{Winner}: [model name] with best [metric]
+\end{frame}
+
+% =================================================
+\section{Discussion}
+% =================================================
+
+\begin{frame}{Key Findings}
+\fontsize{10}{11}\selectfont
+
+\begin{enumerate}
+    \item \textbf{Finding 1}: [description]
+    \item \textbf{Finding 2}: [description]
+    \item \textbf{Learning}: [lesson]
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Lessons Learned}
+\fontsize{10}{11}\selectfont
+
+\begin{columns}
+\column{0.5\textwidth}
+\hlg{What Worked}
+\begin{itemize}
+    \item [item]
+\end{itemize}
+
+\hlb{Challenges}
+\begin{itemize}
+    \item [item]
+\end{itemize}
+
+\column{0.5\textwidth}
+\hl{Key Takeaway}
+\begin{itemize}
+    \item [item]
+\end{itemize}
+\end{columns}
+\end{frame}
+
+% =================================================
+\section{Conclusion}
+% =================================================
+
+\begin{frame}{Summary}
+\fontsize{10}{11}\selectfont
+
+\begin{columns}
+\column{0.5\textwidth}
+\begin{block}{Classification}
+\hlg{Best}: [model] = [value]
+\begin{itemize}
+    \item Model A: [value]
+    \item Model B: [value]
+\end{itemize}
+\end{block}
+
+\column{0.5\textwidth}
+\begin{block}{Regression}
+\hlg{Best}: [model] = [value]
+\begin{itemize}
+    \item Model A: [value]
+    \item Model B: [value]
+\end{itemize}
+\end{block}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Recommendations}
+\fontsize{10}{11}\selectfont
+
+\begin{enumerate}
+    \item \textbf{For [task]}: Use [model] because [reason]
+    \item \textbf{Improvements}: [suggestions]
+    \item \textbf{Next Steps}: [future work]
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Final Thoughts}
+\begin{itemize}
+\item \hlb{[Key conclusion 1]}
+\item \hl{[Key conclusion 2]}
+\end{itemize}
+\vspace{0.3in}
+\textbf{Thank you!}
+\end{frame}
+
+\end{document}
