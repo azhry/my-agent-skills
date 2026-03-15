@@ -1,44 +1,34 @@
-# Use Case Examples — Based on SKILL.md
+# Use Case Examples
 
-This directory contains use case examples covering all scenarios from the data-science-lab SKILL.md.
-
-## Current Examples
-
-| File | Use Case | Task Type | Description |
-|------|----------|-----------|-------------|
-| `lab1_supervised_learning.ipynb` | Wine Quality + Housing | Classification, Regression | Full supervised learning workflow |
-| `eda_and_data_prep.md` | Generic EDA + Data Prep | EDA, Preprocessing | How to use run_eda.py and run_data_prep.py |
-| `lab_instructions.md` | Lab Assignment | Reference | Example professor instructions |
-| `usage.md` | General Usage | Reference | Quick start prompts |
-| `use_case_clustering.ipynb` | Customer Segmentation | Clustering | K-Means, DBSCAN, Hierarchical |
-| `use_case_nlp_sentiment.ipynb` | Review Sentiment Analysis | NLP | Text classification, VADER, TF-IDF |
-| `use_case_nlp_topic.md` | Topic Modeling | NLP | LDA, NMF for text analysis |
-| `use_case_anomaly.md` | Fraud Detection | Anomaly Detection | Isolation Forest, Local Outlier Factor |
-| `use_case_forecasting.md` | Sales Forecasting | Time Series | ARIMA, Holt-Winters |
-| `use_case_recommendation.md` | Product Recommendation | Collaborative Filtering | Matrix Factorization, KNN |
+This directory contains use case examples covering all scenarios from the data-science-lab skill.
 
 ## Quick Mapping: User Goal → Example
 
 | User Goal | Example File | Key Models |
 |-----------|-------------|-----------|
-| "Segment customers" | `use_case_clustering.ipynb` | K-Means, DBSCAN |
-| "Sentiment analysis" | `use_case_nlp_sentiment.ipynb` | VADER, Logistic Regression |
-| "Find topics in documents" | `use_case_nlp_topic.md` | LDA, NMF |
-| "Detect fraud" | `use_case_anomaly.md` | Isolation Forest, LOF |
-| "Forecast sales" | `use_case_forecasting.md` | ARIMA, Holt-Winters |
-| "Recommend products" | `use_case_recommendation.md` | SVD, KNN |
-| "Predict prices" | `lab1_supervised_learning.ipynb` | Regression models |
-| "Classify categories" | `lab1_supervised_learning.ipynb` | Classification models |
+| "Predict prices" / "Classify categories" | `lab1_supervised_learning.ipynb` | Logistic Regression, SVM, Random Forest, Ridge, Lasso |
 | "EDA on any dataset" | `eda_and_data_prep.md` | run_eda.py, run_data_prep.py |
+| "Segment customers" / "Group data" | `use_case_clustering.ipynb` | K-Means, DBSCAN, Hierarchical |
+| "Sentiment analysis" | `use_case_nlp_sentiment.ipynb` | VADER, Logistic Regression, TF-IDF |
+| "Find topics in documents" | `use_case_nlp_topic.md` | LDA, NMF |
+| "Detect fraud" / "Anomaly detection" | `use_case_anomaly.md` | Isolation Forest, LOF |
+| "Forecast sales" / "Time series" | `use_case_forecasting.md` | ARIMA, Holt-Winters |
+| "Recommend products" | `use_case_recommendation.md` | SVD, KNN |
 
-## Goal-to-Task Mapping (from SKILL.md)
+## All Files
 
-| User Goal | Task Type | Recommended Models |
-|-----------|-----------|-------------------|
-| "predict X" / "forecast" | regression | Linear Regression, Random Forest, XGBoost |
-| "classify X" / "detect X" | classification | Logistic Regression, Random Forest, SVM |
-| "segment X" / "group" | clustering | K-Means, DBSCAN, Hierarchical |
-| "find patterns" | unsupervised | PCA, Association Rules, Anomaly Detection |
-| "understand text" | NLP | TF-IDF + Classifier, BERT |
-| "sentiment analysis" | NLP | VADER, TextBlob |
-| "Recommend products" | recommendation | Collaborative Filtering |
+| File | Use Case | Task Type |
+|------|----------|-----------|
+| `lab1_supervised_learning.ipynb` | Wine Quality + Housing | Classification, Regression |
+| `eda_and_data_prep.md` | Generic EDA + Data Prep | EDA, Preprocessing |
+| `lab_instructions.md` | Lab Assignment | Reference |
+| `usage.md` | General Usage | Reference |
+| `report_example.tex` | LaTeX Beamer Template | Reporting |
+| `use_case_clustering.ipynb` | Customer Segmentation | Clustering |
+| `use_case_nlp_sentiment.ipynb` | Review Sentiment Analysis | NLP |
+| `use_case_nlp_topic.md` | Topic Modeling | NLP |
+| `use_case_anomaly.md` | Fraud Detection | Anomaly Detection |
+| `use_case_forecasting.md` | Sales Forecasting | Time Series |
+| `use_case_recommendation.md` | Product Recommendation | Collaborative Filtering |
+
+For the complete goal-to-task mapping and workflow, see the main [SKILL.md](../SKILL.md).
